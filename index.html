@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>My Progress — Tulsa Job Corps</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #1A1A18;
+      --bg2:       #222220;
+      --bg3:       #2A2A27;
+      --bg4:       #323230;
+      --bg-nav:    #161614;
+      --border:        #3A3830;
+      --border-bright: #524A40;
+      --accent:      #C4622E;
+      --accent-mid:  #A85228;
+      --accent-dim:  #7A3A1C;
+      --accent-glow: rgba(196,98,46,0.10);
+      --text:       #F0E8DC;
+      --text-soft:  #C8B8A8;
+      --text-muted: #8A7A6A;
+      --high:    #F04535;
+      --medium:  #F0A030;
+      --low:     #38CC6A;
+      --unknown: #807870;
+      --font: 'Figtree', system-ui, sans-serif;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    /* ── Login Screen ─────────────────────────────────────── */
+    .login-screen {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 20px;
+    }
+
+    .login-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 40px 36px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+    }
+
+    .login-brand {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 32px;
+      text-align: center;
+    }
+
+    .login-logo {
+      width: 56px; height: 56px;
+      background: var(--accent-dim);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 14px;
+    }
+    .login-logo svg { width: 30px; height: 30px; color: var(--accent); }
+
+    .login-org {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .login-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.2;
+    }
+
+    .login-subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 6px;
+      line-height: 1.5;
+    }
+
+    .login-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 24px 0;
+    }
+
+    .login-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .login-input {
+      width: 100%;
+      padding: 13px 14px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      text-align: center;
+    }
+    .login-input::placeholder {
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      font-size: 14px;
+    }
+    .login-input:focus {
+      border-color: var(--accent-mid);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    .login-btn {
+      width: 100%;
+      margin-top: 14px;
+      padding: 13px;
+      background: var(--accent);
+      color: var(--bg-nav);
+      border: none;
+      border-radius: 7px;
+      font-family: var(--font);
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .login-btn:hover   { background: var(--accent-mid); }
+    .login-btn:active  { background: var(--accent-dim); }
+    .login-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .login-error {
+      margin-top: 12px;
+      padding: 10px 13px;
+      background: rgba(240,69,53,.08);
+      border: 1px solid rgba(240,69,53,.30);
+      border-radius: 6px;
+      font-size: 13px;
+      color: var(--high);
+      text-align: center;
+      display: none;
+    }
+    .login-error.show { display: block; }
+
+    .login-hint {
+      margin-top: 18px;
+      font-size: 12px;
+      color: var(--text-muted);
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    /* ── Profile Screen ───────────────────────────────────── */
+    .profile-screen { display: none; }
+
+    .profile-nav {
+      background: var(--bg-nav);
+      border-bottom: 1px solid var(--accent-dim);
+      padding: 0 20px;
+      height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .profile-nav-brand { display: flex; align-items: center; gap: 9px; }
+    .profile-nav-brand svg { color: var(--accent); opacity: 0.85; }
+    .profile-nav-title { font-size: 14px; font-weight: 700; color: var(--accent); }
+    .profile-nav-sub { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
+
+    .btn-logout {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      color: var(--text-muted);
+      font-family: var(--font);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 12px;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+    .btn-logout:hover { background: var(--bg4); color: var(--text); }
+
+    .profile-main {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 24px 16px 80px;
+    }
+
+    /* ── Student header ───────────────────────────────────── */
+    .student-header {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 22px 20px;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .student-avatar {
+      width: 52px; height: 52px;
+      background: var(--accent-dim);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; font-weight: 800;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .student-info { flex: 1; min-width: 0; }
+    .student-name-display { font-size: 20px; font-weight: 800; color: var(--text); line-height: 1.2; }
+    .student-id-display { font-size: 12px; color: var(--text-muted); margin-top: 3px; font-weight: 500; }
+    .student-tagline { font-size: 13px; color: var(--text-soft); margin-top: 5px; line-height: 1.4; }
+
+    /* ── Risk Score ───────────────────────────────────────── */
+    .risk-block {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 20px;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .risk-score-box {
+      width: 60px; height: 60px;
+      border-radius: 9px;
+      background: var(--bg4);
+      border: 1px solid var(--border);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .risk-score-num { font-size: 22px; font-weight: 800; line-height: 1; }
+    .risk-score-denom { font-size: 9px; color: var(--text-muted); font-weight: 600; margin-top: 1px; }
+    .risk-score-num.HIGH    { color: var(--high); }
+    .risk-score-num.MEDIUM  { color: var(--medium); }
+    .risk-score-num.LOW     { color: var(--low); }
+    .risk-score-num.UNKNOWN { color: var(--unknown); }
+
+    .risk-detail { flex: 1; }
+    .risk-level-label { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+    .risk-level-label.HIGH    { color: var(--high); }
+    .risk-level-label.MEDIUM  { color: var(--medium); }
+    .risk-level-label.LOW     { color: var(--low); }
+    .risk-level-label.UNKNOWN { color: var(--unknown); }
+    .risk-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+
+    .risk-explainer-btn {
+      background: none; border: none; cursor: pointer;
+      font-size: 12px; color: var(--accent-mid);
+      font-family: var(--font); padding: 0;
+      margin-top: 4px; display: inline-block;
+      text-decoration: underline;
+      text-decoration-color: rgba(196,98,46,0.4);
+    }
+
+    /* ── Section cards ────────────────────────────────────── */
+    .section-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 14px;
+      overflow: hidden;
+    }
+
+    .section-header {
+      display: flex; align-items: center; gap: 9px;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg3);
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.12s;
+    }
+    .section-header:hover { background: var(--bg4); }
+    .section-header-icon { color: var(--accent-dim); display: flex; align-items: center; flex-shrink: 0; }
+    .section-header-icon svg { width: 16px; height: 16px; }
+    .section-title { font-size: 13px; font-weight: 700; color: var(--text-soft); text-transform: uppercase; letter-spacing: 0.5px; flex: 1; }
+    .section-chevron { font-size: 11px; color: var(--text-muted); transition: transform 0.2s ease; }
+    .section-chevron.collapsed { transform: rotate(-90deg); }
+    .section-body { padding: 16px 18px; }
+    .section-body.hidden { display: none; }
+    .section-week-label { font-size: 11px; color: var(--text-muted); font-weight: 600; margin-left: auto; margin-right: 8px; white-space: nowrap; }
+
+    /* ── Info rows ────────────────────────────────────────── */
+    .info-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 9px 0; border-bottom: 1px solid var(--border);
+      font-size: 14px; gap: 12px;
+    }
+    .info-row:last-child { border-bottom: none; }
+    .info-row .label { color: var(--text-muted); font-size: 13px; font-weight: 500; flex-shrink: 0; }
+    .info-row .value { font-weight: 600; color: var(--text); text-align: right; }
+
+    /* ── Progress bar ─────────────────────────────────────── */
+    .prog-wrap { display: flex; align-items: center; gap: 10px; min-width: 120px; }
+    .prog-bar { flex: 1; height: 6px; background: var(--bg4); border-radius: 2px; overflow: hidden; }
+    .prog-fill { height: 100%; border-radius: 0 2px 2px 0; transition: width 0.6s ease-out; }
+    .prog-fill.good    { background: var(--low); }
+    .prog-fill.warning { background: var(--medium); }
+    .prog-fill.danger  { background: var(--high); }
+    .prog-fill.trades  { background: var(--accent-mid); }
+    .prog-label { font-size: 13px; font-weight: 700; color: var(--text); min-width: 36px; text-align: right; }
+
+    /* ── Schedule ─────────────────────────────────────────── */
+    .schedule-slot {
+      display: flex; align-items: flex-start; gap: 14px;
+      padding: 11px 0; border-bottom: 1px solid var(--border);
+    }
+    .schedule-slot:last-child { border-bottom: none; }
+    .slot-period { font-size: 11px; font-weight: 700; color: var(--accent-mid); white-space: nowrap; min-width: 60px; padding-top: 2px; }
+    .slot-detail { flex: 1; min-width: 0; }
+    .slot-class { font-size: 14px; font-weight: 600; color: var(--text); line-height: 1.3; }
+    .slot-location { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+    .slot-academic { color: var(--accent-mid); font-size: 10px; margin-left: 4px; }
+    .schedule-empty { font-size: 13px; color: var(--text-muted); font-style: italic; padding: 4px 0; }
+
+    /* ── Hour metrics grid ────────────────────────────────── */
+    .hour-metrics {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 8px; margin-bottom: 16px;
+    }
+    .hour-metric {
+      background: var(--bg3); border: 1px solid var(--border);
+      border-radius: 8px; padding: 12px 8px; text-align: center;
+    }
+    .hm-label { font-size: 9px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; display: block; }
+    .hm-val { font-size: 20px; font-weight: 800; color: var(--text); }
+    .hm-val.ok   { color: var(--low); }
+    .hm-val.warn { color: var(--high); }
+
+    /* ── Notes ────────────────────────────────────────────── */
+    .note-item { background: var(--bg3); border: 1px solid var(--border); border-radius: 7px; overflow: hidden; margin-bottom: 10px; }
+    .note-item:last-child { margin-bottom: 0; }
+    .note-meta { display: flex; align-items: center; gap: 8px; padding: 7px 12px; background: var(--bg4); border-bottom: 1px solid var(--border); }
+    .note-author { font-size: 11px; font-weight: 700; color: var(--accent); }
+    .note-date   { font-size: 11px; color: var(--text-muted); }
+    .note-text   { padding: 10px 12px; font-size: 13px; color: var(--text-soft); line-height: 1.6; white-space: pre-wrap; }
+
+    /* ── WIR metrics ──────────────────────────────────────── */
+    .wir-metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 8px; margin-bottom: 12px; }
+    .wir-metric { background: var(--bg3); border: 1px solid var(--border); border-radius: 7px; padding: 10px 8px; text-align: center; }
+    .wm-label { display: block; font-size: 9px; font-weight: 700; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.4px; }
+    .wm-val   { font-size: 15px; font-weight: 700; color: var(--text); }
+
+    /* ── Time months ──────────────────────────────────────── */
+    .time-months { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; margin-top: 12px; }
+    .time-month  { background: var(--bg3); border: 1px solid var(--border); border-radius: 7px; overflow: hidden; }
+    .time-month-label { font-size: 11px; font-weight: 700; color: var(--accent-mid); padding: 5px 10px; background: var(--bg4); border-bottom: 1px solid var(--border); }
+    .time-weeks { padding: 4px 0; }
+    .time-week  { display: flex; justify-content: space-between; padding: 3px 10px; font-size: 12px; }
+    .tw-label   { color: var(--text-muted); font-weight: 500; }
+    .tw-val     { font-weight: 600; color: var(--text); }
+
+    /* ── Explainer overlay ────────────────────────────────── */
+    .explainer-overlay {
+      position: fixed; inset: 0;
+      background: rgba(8,6,4,.80);
+      z-index: 200;
+      display: flex; align-items: flex-end; justify-content: center;
+      padding: 16px;
+    }
+    .explainer-box {
+      background: var(--bg2); border: 1px solid var(--border-bright);
+      border-radius: 12px; width: 100%; max-width: 500px;
+      max-height: 80vh; overflow-y: auto;
+      padding: 24px 22px; box-shadow: 0 10px 40px rgba(0,0,0,.6);
+    }
+    .explainer-title { font-size: 16px; font-weight: 800; color: var(--text); margin-bottom: 12px; }
+    .explainer-text  { font-size: 13px; color: var(--text-muted); line-height: 1.65; margin-bottom: 14px; }
+    .explainer-levels { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+    .explainer-level { padding: 10px 13px; border-radius: 6px; font-size: 13px; border-left: 3px solid transparent; line-height: 1.5; }
+    .explainer-level.high   { background: rgba(240,69,53,.08);  color: var(--high);   border-left-color: var(--high); }
+    .explainer-level.medium { background: rgba(240,160,48,.08); color: var(--medium); border-left-color: var(--medium); }
+    .explainer-level.low    { background: rgba(56,204,106,.08); color: var(--low);    border-left-color: var(--low); }
+    .explainer-close {
+      width: 100%; padding: 12px;
+      background: var(--bg3); border: 1px solid var(--border);
+      border-radius: 7px; color: var(--text);
+      font-family: var(--font); font-size: 14px; font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* ── Loading / Error ──────────────────────────────────── */
+    .loading-state {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 16px; padding: 60px 20px; color: var(--text-muted);
+      text-align: center; font-size: 14px;
+    }
+    .spinner {
+      width: 30px; height: 30px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.85s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .hidden { display: none !important; }
+
+    @media (max-width: 480px) {
+      .login-card { padding: 28px 22px; }
+      .profile-main { padding: 16px 12px 80px; }
+      .student-header { padding: 16px 14px; gap: 12px; }
+      .student-name-display { font-size: 17px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── LOGIN SCREEN ───────────────────────────────────────── -->
+<div id="loginScreen" class="login-screen">
+  <div class="login-card">
+    <div class="login-brand">
+      <div class="login-logo">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5"/>
+        </svg>
+      </div>
+      <div class="login-org">Tulsa Job Corps</div>
+      <div class="login-title">My Progress</div>
+      <div class="login-subtitle">Enter your Student ID to view your progress, courses, and training status.</div>
+    </div>
+    <div class="login-divider"></div>
+    <label class="login-label" for="studentIdInput">Your Student ID</label>
+    <input
+      type="text"
+      id="studentIdInput"
+      class="login-input"
+      placeholder="e.g. 123456"
+      autocomplete="off"
+      autocorrect="off"
+      spellcheck="false"
+      inputmode="numeric"
+      onkeydown="if(event.key==='Enter') lookupStudent()"
+    >
+    <button class="login-btn" id="loginBtn" onclick="lookupStudent()">
+      View My Progress
+    </button>
+    <div id="loginError" class="login-error"></div>
+    <p class="login-hint">Your Student ID is on your enrollment paperwork.<br>Contact your coordinator if you need help finding it.</p>
+  </div>
+</div>
+
+<!-- ── PROFILE SCREEN ─────────────────────────────────────── -->
+<div id="profileScreen" class="profile-screen">
+  <nav class="profile-nav">
+    <div class="profile-nav-brand">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="20" height="20">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5"/>
+      </svg>
+      <div>
+        <div class="profile-nav-title">Tulsa Job Corps</div>
+        <div class="profile-nav-sub">My Progress</div>
+      </div>
+    </div>
+    <button class="btn-logout" onclick="logout()">Sign Out</button>
+  </nav>
+
+  <div class="profile-main">
+    <div id="profileLoading" class="loading-state">
+      <div class="spinner"></div>
+      <span>Loading your progress…</span>
+    </div>
+
+    <div id="profileContent" class="hidden">
+      <!-- Student header -->
+      <div class="student-header">
+        <div class="student-avatar" id="studentAvatar"></div>
+        <div class="student-info">
+          <div class="student-name-display" id="studentNameDisplay"></div>
+          <div class="student-id-display" id="studentIdDisplay"></div>
+          <div class="student-tagline" id="studentTagline"></div>
+        </div>
+      </div>
+
+      <!-- Risk score -->
+      <div class="risk-block">
+        <div class="risk-score-box">
+          <div class="risk-score-num" id="riskScoreNum"></div>
+          <div class="risk-score-denom">/ 100</div>
+        </div>
+        <div class="risk-detail">
+          <div class="risk-level-label" id="riskLevelLabel"></div>
+          <div class="risk-desc" id="riskDesc"></div>
+          <button class="risk-explainer-btn" onclick="showExplainer()">How is this calculated?</button>
+        </div>
+      </div>
+
+      <!-- Academic -->
+      <div class="section-card">
+        <div class="section-header" onclick="toggleSection('academicBody', this)">
+          <div class="section-header-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5"/></svg>
+          </div>
+          <div class="section-title">Academic Progress</div>
+          <div class="section-chevron">▾</div>
+        </div>
+        <div class="section-body" id="academicBody"></div>
+      </div>
+
+      <!-- Trades -->
+      <div class="section-card">
+        <div class="section-header" onclick="toggleSection('tradesBody', this)">
+          <div class="section-header-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z"/></svg>
+          </div>
+          <div class="section-title">Trades Training</div>
+          <div class="section-chevron">▾</div>
+        </div>
+        <div class="section-body" id="tradesBody"></div>
+      </div>
+
+      <!-- Schedule -->
+      <div class="section-card hidden" id="sectionSchedule">
+        <div class="section-header" onclick="toggleSection('scheduleBody', this)">
+          <div class="section-header-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"/></svg>
+          </div>
+          <div class="section-title">My Schedule</div>
+          <div class="section-week-label" id="scheduleWeekLabel"></div>
+          <div class="section-chevron">▾</div>
+        </div>
+        <div class="section-body" id="scheduleBody"></div>
+      </div>
+
+      <!-- Weekly Check-In -->
+      <div class="section-card hidden" id="sectionWIR">
+        <div class="section-header" onclick="toggleSection('wirBody', this)">
+          <div class="section-header-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z"/></svg>
+          </div>
+          <div class="section-title">Weekly Check-In</div>
+          <div class="section-chevron">▾</div>
+        </div>
+        <div class="section-body" id="wirBody"></div>
+      </div>
+
+      <!-- Time Logged -->
+      <div class="section-card hidden" id="sectionTime">
+        <div class="section-header" onclick="toggleSection('timeBody', this)">
+          <div class="section-header-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </div>
+          <div class="section-title">Time Logged</div>
+          <div class="section-chevron">▾</div>
+        </div>
+        <div class="section-body" id="timeBody"></div>
+      </div>
+
+      <!-- Identity -->
+      <div class="section-card">
+        <div class="section-header" onclick="toggleSection('identityBody', this)">
+          <div class="section-header-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
+          </div>
+          <div class="section-title">My Information</div>
+          <div class="section-chevron">▾</div>
+        </div>
+        <div class="section-body" id="identityBody"></div>
+      </div>
+
+      <!-- Notes -->
+      <div class="section-card hidden" id="sectionNotes">
+        <div class="section-header" onclick="toggleSection('notesBody', this)">
+          <div class="section-header-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"/></svg>
+          </div>
+          <div class="section-title">Notes from Your Coordinator</div>
+          <div class="section-chevron">▾</div>
+        </div>
+        <div class="section-body" id="notesBody"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── RISK EXPLAINER ─────────────────────────────────────── -->
+<div id="explainerOverlay" class="explainer-overlay hidden" onclick="if(event.target===this)hideExplainer()">
+  <div class="explainer-box">
+    <div class="explainer-title">How your progress score works</div>
+    <p class="explainer-text">Your score runs from 0 to 100. A lower number means things are on track. A higher number means there are areas your coordinators want to help you with. It's not a grade — it's a tool to make sure you get support when you need it.</p>
+    <div class="explainer-levels">
+      <div class="explainer-level low"><strong>On Track (0–29)</strong> — You're making good progress. Keep it up.</div>
+      <div class="explainer-level medium"><strong>Watch Closely (30–59)</strong> — Some areas to pay attention to. Your coordinator may reach out.</div>
+      <div class="explainer-level high"><strong>Needs Attention (60–100)</strong> — Your team wants to connect with you soon to help get things back on track.</div>
+    </div>
+    <p class="explainer-text">The score looks at your academic pace, trade progress, hours logged, and whether you have an active intervention plan. It updates automatically as your data changes.</p>
+    <button class="explainer-close" onclick="hideExplainer()">Got it</button>
+  </div>
+</div>
+
+<script>
+// ─────────────────────────────────────────────────────────────
+// CONFIGURATION — update this with your Apps Script URL
+// ─────────────────────────────────────────────────────────────
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwc2oZJ987aVZ67k221CsynN24AFsZBbRgeabw0K6q2lKgaRcYNbT1N09sZa1un_c3f5Q/exec';
+
+// ─────────────────────────────────────────────────────────────
+// State
+// ─────────────────────────────────────────────────────────────
+let _profile = null;
+
+// ─────────────────────────────────────────────────────────────
+// Login
+// ─────────────────────────────────────────────────────────────
+async function lookupStudent() {
+  const input = document.getElementById('studentIdInput');
+  const id    = (input.value || '').trim();
+  if (!id) { showLoginError('Please enter your Student ID.'); return; }
+
+  const btn = document.getElementById('loginBtn');
+  btn.disabled    = true;
+  btn.textContent = 'Looking up…';
+  hideLoginError();
+
+  try {
+    const url    = `${APPS_SCRIPT_URL}?studentId=${encodeURIComponent(id)}`;
+    const resp   = await fetch(url);
+    const result = await resp.json();
+
+    btn.disabled    = false;
+    btn.textContent = 'View My Progress';
+
+    if (result.error) { showLoginError(result.error); return; }
+    if (!result.profile) { showLoginError("We couldn't find a student with that ID. Double-check and try again."); return; }
+
+    _profile = result.profile;
+    showProfile(_profile);
+
+  } catch(err) {
+    btn.disabled    = false;
+    btn.textContent = 'View My Progress';
+    showLoginError('Something went wrong. Please try again.');
+  }
+}
+
+function showLoginError(msg) {
+  const el = document.getElementById('loginError');
+  el.textContent = msg;
+  el.classList.add('show');
+}
+function hideLoginError() {
+  document.getElementById('loginError').classList.remove('show');
+}
+
+function logout() {
+  _profile = null;
+  document.getElementById('profileScreen').style.display = 'none';
+  document.getElementById('loginScreen').style.display   = 'flex';
+  document.getElementById('studentIdInput').value = '';
+  document.getElementById('profileContent').classList.add('hidden');
+  document.getElementById('profileLoading').style.display = 'flex';
+}
+
+// ─────────────────────────────────────────────────────────────
+// Show profile
+// ─────────────────────────────────────────────────────────────
+function showProfile(p) {
+  document.getElementById('loginScreen').style.display   = 'none';
+  document.getElementById('profileScreen').style.display = 'block';
+
+  const initials = p.displayName.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
+  document.getElementById('studentAvatar').textContent      = initials;
+  document.getElementById('studentNameDisplay').textContent = p.displayName;
+  document.getElementById('studentIdDisplay').textContent   = 'Student ID: ' + (p.academicId || p.id || '—');
+
+  let tagline = 'Here\'s a look at where you stand.';
+  if (p.tradeComplete && p.hsComplete) tagline = 'You\'ve completed both your academics and trade training.';
+  else if (p.tradeComplete)            tagline = 'You\'ve completed your trade training. Keep going with academics.';
+  else if (p.hsComplete)               tagline = 'You\'ve completed your high school requirements. Keep going with trades.';
+  else if (p.risk && p.risk.level === 'LOW') tagline = 'You\'re making solid progress. Keep it up.';
+  document.getElementById('studentTagline').textContent = tagline;
+
+  const level = p.risk ? p.risk.level : 'UNKNOWN';
+  const score = p.risk ? p.risk.score : 0;
+  const scoreEl = document.getElementById('riskScoreNum');
+  scoreEl.textContent = score;
+  scoreEl.className   = 'risk-score-num ' + level;
+
+  const levelLabels = { HIGH: 'Needs Attention', MEDIUM: 'Watch Closely', LOW: 'On Track', UNKNOWN: 'No Data Yet' };
+  const levelDescs  = {
+    HIGH:    'Your coordinator wants to connect with you soon. Check your weekly check-in for more detail.',
+    MEDIUM:  'A few things to keep an eye on. Stay in touch with your coordinator.',
+    LOW:     'Things look good. Keep up the work.',
+    UNKNOWN: 'We don\'t have enough data yet to calculate your score.',
+  };
+  const levelEl = document.getElementById('riskLevelLabel');
+  levelEl.textContent = levelLabels[level] || level;
+  levelEl.className   = 'risk-level-label ' + level;
+  document.getElementById('riskDesc').textContent = levelDescs[level] || '';
+
+  buildAcademic(p);
+  buildTrades(p);
+  buildWIR(p);
+  buildTime(p);
+  buildIdentity(p);
+  buildNotes(p);
+  buildSchedule(p.academicId || p.id || '', p.academic ? p.academic.thisWeekHours : null);
+
+  document.getElementById('profileLoading').style.display = 'none';
+  document.getElementById('profileContent').classList.remove('hidden');
+}
+
+// ─────────────────────────────────────────────────────────────
+// Section builders
+// ─────────────────────────────────────────────────────────────
+function buildAcademic(p) {
+  const body = document.getElementById('academicBody');
+  if (!p.academic) {
+    body.innerHTML = '<p style="color:var(--text-muted);font-size:13px;font-style:italic;">No academic data on file yet.</p>';
+    return;
+  }
+  const a   = p.academic;
+  const pct = a.percent !== null ? a.percent : null;
+  const colorClass = pct === null ? '' : pct >= 75 ? 'good' : pct >= 40 ? 'warning' : 'danger';
+
+  let html = '';
+  if (pct !== null) {
+    html += `<div style="margin-bottom:16px;">
+      <div style="font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Overall Progress</div>
+      <div class="prog-wrap">
+        <div class="prog-bar"><div class="prog-fill ${colorClass}" style="width:${Math.min(pct,100)}%"></div></div>
+        <div class="prog-label">${pct.toFixed(0)}%</div>
+      </div>
+    </div>`;
+  }
+
+  const rows = [
+    ['Program',           a.type || '—'],
+    ['Pace',              a.pace || '—'],
+    ['Total Hours',       a.hours !== null ? (+a.hours).toFixed(1) + ' h' : '—'],
+    ['Start Date',        a.start || '—'],
+    ['Graduation Date',   a.graduation || '—'],
+    ['Days to Grad',      a.daysToGrad !== null ? a.daysToGrad + ' days' : '—'],
+    ['Credits Remaining', a.credits !== null ? a.credits : '—'],
+    ['This Week',         a.thisWeekHours === 'NWH' ? 'In Trades' : a.thisWeekHours !== null ? (+a.thisWeekHours).toFixed(1) + ' h' : '—'],
+    ['Last Week',         a.lastWeekHours !== null ? (+a.lastWeekHours).toFixed(1) + ' h' : '—'],
+  ];
+
+  html += rows.map(([label, val]) =>
+    `<div class="info-row"><span class="label">${esc(label)}</span><span class="value">${esc(String(val))}</span></div>`
+  ).join('');
+
+  body.innerHTML = html;
+}
+
+function buildTrades(p) {
+  const body = document.getElementById('tradesBody');
+
+  if (p.tradeComplete && (!p.trades || !p.trades.length)) {
+    const names = (p.completedTrades || []).join(', ') || 'Trade';
+    body.innerHTML = `<div class="info-row"><span class="label">Status</span><span class="value" style="color:var(--low)">✓ Complete</span></div>
+      <div class="info-row"><span class="label">Program</span><span class="value">${esc(names)}</span></div>`;
+    return;
+  }
+
+  if (!p.trades || !p.trades.length) {
+    body.innerHTML = '<p style="color:var(--text-muted);font-size:13px;font-style:italic;">No trades data on file yet.</p>';
+    return;
+  }
+
+  let html = '';
+  p.trades.forEach(t => {
+    const pct = t.overallPct;
+    html += `<div style="margin-bottom:18px;">`;
+    html += `<div style="font-size:14px;font-weight:700;color:var(--accent);margin-bottom:10px;">${esc(t.tarName || '—')}</div>`;
+    if (pct !== null) {
+      html += `<div style="margin-bottom:12px;">
+        <div class="prog-wrap">
+          <div class="prog-bar"><div class="prog-fill trades" style="width:${Math.min(pct,100)}%"></div></div>
+          <div class="prog-label">${pct.toFixed(0)}%</div>
+        </div>
+      </div>`;
+    }
+    const rows = [
+      ['Status',        t.status || '—'],
+      ['Enrollment',    t.enrollment || '—'],
+      ['ETAR Start',    t.etarStart || '—'],
+      ['Projected End', t.etarProjectedEnd || '—'],
+      ['Days to ETAR',  t.daysToETAR !== null ? t.daysToETAR + ' days' : '—'],
+    ];
+    html += rows.map(([label, val]) =>
+      `<div class="info-row"><span class="label">${esc(label)}</span><span class="value">${esc(String(val))}</span></div>`
+    ).join('');
+    html += `</div>`;
+  });
+
+  body.innerHTML = html;
+}
+
+function buildWIR(p) {
+  if (!p.intervention) return;
+  document.getElementById('sectionWIR').classList.remove('hidden');
+  const iv   = p.intervention;
+  const body = document.getElementById('wirBody');
+  let html = '';
+
+  if (iv.weekLabel) {
+    html += `<div style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px;">Week of ${esc(iv.weekLabel)}</div>`;
+  }
+
+  const metrics = [];
+  if (iv.percent)       metrics.push({ label: 'Progress',   val: iv.percent });
+  if (iv.thisWeekHours) metrics.push({ label: 'This Week',  val: iv.thisWeekHours });
+  if (iv.credits)       metrics.push({ label: 'Credits',    val: iv.credits });
+  if (iv.streak)        metrics.push({ label: 'Streak',     val: iv.streak });
+  if (iv.trajectory)    metrics.push({ label: 'Trajectory', val: iv.trajectory });
+
+  if (metrics.length) {
+    html += '<div class="wir-metrics">';
+    metrics.forEach(m => {
+      html += `<div class="wir-metric"><span class="wm-label">${esc(m.label)}</span><span class="wm-val">${esc(String(m.val))}</span></div>`;
+    });
+    html += '</div>';
+  }
+
+  if (iv.reason) {
+    html += `<div style="background:var(--bg3);border-left:2px solid var(--accent-dim);padding:10px 13px;border-radius:5px;font-size:13px;color:var(--text-soft);line-height:1.6;margin-bottom:10px;">${esc(iv.reason)}</div>`;
+  }
+
+  if (iv.gradGap && iv.gradGap.trim()) {
+    const g = iv.gradGap.trim();
+    const isOver = g.includes('over limit') || g.startsWith('⛔');
+    const color  = isOver ? 'var(--high)' : g.startsWith('🟡') ? 'var(--medium)' : 'var(--low)';
+    html += `<div class="info-row"><span class="label">Graduation Window</span><span class="value" style="color:${color}">${esc(g)}</span></div>`;
+  }
+
+  if (iv.followUp) {
+    html += `<div class="info-row"><span class="label">Follow-Up Date</span><span class="value">${esc(iv.followUp)}</span></div>`;
+  }
+
+  body.innerHTML = html;
+}
+
+function buildTime(p) {
+  if (!p.time) return;
+  document.getElementById('sectionTime').classList.remove('hidden');
+  const body   = document.getElementById('timeBody');
+  const sheets = p.time.sheets || {};
+  const MONTHS = ['April','May','June','July','August','September'];
+
+  let html = `<div class="info-row" style="margin-bottom:12px;"><span class="label">Total Hours</span><span class="value">${(+p.time.totalHours).toFixed(1)} h</span></div>`;
+
+  const monthKeys = Object.keys(sheets).filter(k => MONTHS.some(m => k.startsWith(m)));
+  if (monthKeys.length) {
+    html += '<div class="time-months">';
+    MONTHS.forEach(month => {
+      const entries = Object.entries(sheets).filter(([k]) => k.startsWith(month));
+      if (!entries.length) return;
+      html += `<div class="time-month"><div class="time-month-label">${month}</div><div class="time-weeks">`;
+      entries.forEach(([key, hrs], i) => {
+        const wkLabel = key.replace(month, '').trim() || `Wk ${i+1}`;
+        html += `<div class="time-week"><span class="tw-label">${esc(wkLabel)}</span><span class="tw-val">${(+hrs).toFixed(1)}h</span></div>`;
+      });
+      html += '</div></div>';
+    });
+    html += '</div>';
+  }
+
+  body.innerHTML = html;
+}
+
+function buildIdentity(p) {
+  const body = document.getElementById('identityBody');
+  const rows = [
+    ['Student ID',     p.academicId || p.id || '—'],
+    ['Academic Type',  p.academic ? p.academic.type : '—'],
+    ['HS Complete',    p.hsComplete ? 'Yes' : 'No'],
+    ['Trade Complete', p.tradeComplete ? 'Yes' : 'No'],
+  ];
+  if (p.completedTrades && p.completedTrades.length) {
+    rows.push(['Completed Trades', p.completedTrades.join(', ')]);
+  }
+  body.innerHTML = rows.map(([label, val]) =>
+    `<div class="info-row"><span class="label">${esc(label)}</span><span class="value">${esc(String(val))}</span></div>`
+  ).join('');
+}
+
+function buildNotes(p) {
+  const notes = (p.notes || [])
+    .filter(n => n.text && n.text.trimStart().startsWith('[Student]'))
+    .map(n => ({ ...n, text: n.text.replace(/^\[Student\]\s*/i, '').trim() }))
+    .sort((a, b) => (b.date || '') > (a.date || '') ? 1 : -1);
+
+  if (!notes.length) return;
+
+  document.getElementById('sectionNotes').classList.remove('hidden');
+  const body = document.getElementById('notesBody');
+
+  body.innerHTML = notes.map(n => {
+    const ts = n.date ? formatDate(n.date) : '';
+    return `<div class="note-item">
+      <div class="note-meta">
+        <span class="note-author">${esc(n.setBy || 'Staff')}</span>
+        <span class="note-date">${ts}</span>
+      </div>
+      <div class="note-text">${esc(n.text)}</div>
+    </div>`;
+  }).join('');
+}
+
+async function buildSchedule(studentId, workedThisWeek) {
+  try {
+    const url    = `${APPS_SCRIPT_URL}?scheduleId=${encodeURIComponent(studentId)}`;
+    const resp   = await fetch(url);
+    const result = await resp.json();
+
+    if (result.error || !result.weekLabel) return;
+
+    const section = document.getElementById('sectionSchedule');
+    const body    = document.getElementById('scheduleBody');
+    const weekEl  = document.getElementById('scheduleWeekLabel');
+    if (weekEl) weekEl.textContent = result.weekLabel;
+
+    if (!result.schedule || !Object.keys(result.schedule).length) {
+      body.innerHTML = '<p class="schedule-empty">No schedule on file for this week.</p>';
+      section.classList.remove('hidden');
+      return;
+    }
+
+    let html = '';
+
+    if (!result.isWeekend && result.expectedWeekHours > 0) {
+      const worked = workedThisWeek !== null && workedThisWeek !== undefined && workedThisWeek !== 'NWH'
+        ? +workedThisWeek : null;
+      const workedDisplay = workedThisWeek === 'NWH' ? 'Trades'
+        : worked !== null ? worked.toFixed(1) + 'h' : '—';
+      const workedColor = worked !== null && result.expectedWeekHours > 0
+        ? (worked >= result.expectedWeekHours * 0.5 ? 'ok' : 'warn') : '';
+
+      html += `<div class="hour-metrics">
+        <div class="hour-metric">
+          <span class="hm-label">Expected<br>This Week</span>
+          <div class="hm-val">${result.expectedWeekHours}h</div>
+        </div>
+        <div class="hour-metric">
+          <span class="hm-label">Expected<br>Today</span>
+          <div class="hm-val">${result.expectedTodayHours !== null ? result.expectedTodayHours + 'h' : '—'}</div>
+        </div>
+        <div class="hour-metric">
+          <span class="hm-label">Worked<br>This Week</span>
+          <div class="hm-val ${workedColor}">${workedDisplay}</div>
+        </div>
+      </div>`;
+    }
+
+    if (!result.isWeekend && result.todayLabel) {
+      html += `<div style="font-size:11px;font-weight:700;color:var(--accent-mid);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">${esc(result.todayLabel)}'s Classes</div>`;
+
+      const todaySched = result.todaySchedule || {};
+      const slots = Object.keys(todaySched).sort((a, b) =>
+        (parseInt(a.replace('Period ','')) || 0) - (parseInt(b.replace('Period ','')) || 0)
+      );
+
+      if (!slots.length) {
+        html += '<p class="schedule-empty">No classes scheduled today.</p>';
+      } else {
+        const ACADEMIC_NAMES = ['HSD 2', 'HSD3', 'HSE/HSD1'];
+        slots.forEach(slot => {
+          const entry = todaySched[slot];
+          const isAcademic = ACADEMIC_NAMES.some(n => (entry.class || '').toLowerCase().includes(n.toLowerCase()));
+          html += `<div class="schedule-slot">
+            <div class="slot-period">${esc(slot)}${isAcademic ? '<span class="slot-academic">●</span>' : ''}</div>
+            <div class="slot-detail">
+              <div class="slot-class">${esc(entry.class || '—')}</div>
+              ${entry.location ? `<div class="slot-location">${esc(entry.location)}</div>` : ''}
+            </div>
+          </div>`;
+        });
+      }
+    } else if (result.isWeekend) {
+      html += '<p class="schedule-empty">No schedule on weekends.</p>';
+    }
+
+    body.innerHTML = html;
+    section.classList.remove('hidden');
+
+  } catch(e) {
+    // Fail silently — schedule is non-critical
+  }
+}
+
+// ─────────────────────────────────────────────────────────────
+// UI helpers
+// ─────────────────────────────────────────────────────────────
+function toggleSection(bodyId, header) {
+  const body    = document.getElementById(bodyId);
+  const chevron = header.querySelector('.section-chevron');
+  const isHidden = body.classList.contains('hidden');
+  body.classList.toggle('hidden', !isHidden);
+  if (chevron) chevron.classList.toggle('collapsed', !isHidden);
+}
+
+function showExplainer() { document.getElementById('explainerOverlay').classList.remove('hidden'); }
+function hideExplainer() { document.getElementById('explainerOverlay').classList.add('hidden'); }
+
+function esc(str) {
+  return String(str ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function formatDate(iso) {
+  try {
+    const d = new Date(iso);
+    if (isNaN(d.getTime())) return '';
+    return d.toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' });
+  } catch(e) { return ''; }
+}
+</script>
+</body>
+</html>

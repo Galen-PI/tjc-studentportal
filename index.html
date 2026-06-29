@@ -1137,7 +1137,19 @@
         </div>
         <div class="section-body" id="academicBody"></div>
       </div>
-
+      
+      <!-- Tabe Scores -->
+      <div class="section-card hidden" id="sectionTABE">
+        <div class="section-header" onclick="toggleSection('tabeBody', this)">
+          <div class="section-header-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z"/></svg>
+          </div>
+          <div class="section-title">TABE Test Scores</div>
+          <div class="section-chevron">▾</div>
+        </div>
+        <div class="section-body" id="tabeBody"></div>
+      </div>
+      
       <!-- Trades -->
       <div class="section-card">
         <div class="section-header" onclick="toggleSection('tradesBody', this)">
@@ -1466,7 +1478,77 @@ function buildAcademic(p) {
 
   body.innerHTML = html;
 }
+function buildTABE(p) {
+  if (!p.tabe || (!p.tabe.math && !p.tabe.reading)) return;
+  document.getElementById('sectionTABE').classList.remove('hidden');
+  const body = document.getElementById('tabeBody');
 
+  function scoreColor(scale) {
+    if (!scale) return 'var(--text-muted)';
+    if (scale >= 511) return 'var(--low)';
+    if (scale >= 461) return 'var(--medium)';
+    return 'var(--high)';
+  }
+  function subtestHtml(label, sub) {
+    if (!sub) return `
+      <div style="margin-bottom:16px;">
+        <div style="font-size:13px;font-weight:700;color:var(--accent);margin-bottom:8px;">${label}</div>
+        <p style="color:var(--text-muted);font-size:13px;font-style:italic;">No test on file yet.</p>
+      </div>`;
+
+    const curr = sub.current;
+    const prev = sub.previous;
+    const best = sub.best;
+    const gain = sub.gain;
+
+    const gainHtml = gain === null
+      ? '<span style="color:var(--text-muted);">—</span>'
+      : `<span style="font-weight:700;color:${gain > 0 ? 'var(--low)' : gain < 0 ? 'var(--high)' : 'var(--text-muted)'};">
+           ${gain > 0 ? '▲ +' : gain < 0 ? '▼ ' : '→ '}${gain}
+         </span>`;
+
+    return `
+      <div style="margin-bottom:18px;">
+        <div style="font-size:13px;font-weight:700;color:var(--accent);margin-bottom:10px;">
+          ${label}
+          <span style="font-size:11px;font-weight:400;color:var(--text-muted);margin-left:6px;">${sub.attempts} attempt${sub.attempts !== 1 ? 's' : ''}</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px;">
+          <div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px 8px;text-align:center;">
+            <div style="font-size:9px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Previous</div>
+            <div style="font-size:22px;font-weight:800;color:${prev ? scoreColor(prev.scale) : 'var(--text-muted)'};">${prev ? prev.scale : '—'}</div>
+            <div style="font-size:10px;color:var(--text-muted);margin-top:2px;">${prev ? 'EFL ' + (prev.efl || '—') : ''}</div>
+            <div style="font-size:10px;color:var(--text-muted);">${prev ? prev.date : ''}</div>
+          </div>
+          <div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px 8px;text-align:center;">
+            <div style="font-size:9px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Current</div>
+            <div style="font-size:22px;font-weight:800;color:${scoreColor(curr.scale)};">${curr.scale}</div>
+            <div style="font-size:10px;color:var(--text-muted);margin-top:2px;">EFL ${curr.efl || '—'}</div>
+            <div style="font-size:10px;color:var(--text-muted);">${curr.date}</div>
+          </div>
+          <div style="background:var(--bg3);border:1px solid ${best.scale === curr.scale ? 'rgba(77,191,120,.3)' : 'var(--border)'};border-radius:8px;padding:12px 8px;text-align:center;">
+            <div style="font-size:9px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Best</div>
+            <div style="font-size:22px;font-weight:800;color:${scoreColor(best.scale)};">${best.scale}</div>
+            <div style="font-size:10px;color:var(--text-muted);margin-top:2px;">EFL ${best.efl || '—'}</div>
+            <div style="font-size:10px;color:var(--text-muted);">${best.date}</div>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;background:var(--bg3);border:1px solid var(--border);border-radius:7px;padding:10px 14px;">
+          <span style="font-size:13px;color:var(--text-muted);font-weight:600;">Gain / Loss</span>
+          <span style="font-size:15px;">${gainHtml}</span>
+        </div>
+      </div>`;
+  }
+
+  let html = '';
+  if (p.tabe.reportDate) {
+    html += `<div style="font-size:11px;color:var(--text-muted);margin-bottom:14px;">Report date: ${esc(p.tabe.reportDate)}</div>`;
+  }
+  html += subtestHtml('Mathematics', p.tabe.math);
+  html += subtestHtml('Reading', p.tabe.reading);
+  body.innerHTML = html;
+}
+  
 function buildTrades(p) {
   const body = document.getElementById('tradesBody');
 

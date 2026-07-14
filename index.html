@@ -1117,8 +1117,8 @@ function buildTABE(p) {
 
   let html = '';
   if (p.tabe.reportDate) {
-    html += `<div style="font-size:11px;color:var(--text-muted);margin-bottom:14px;">Report date: ${esc(p.tabe.reportDate)}</div>`;
-  }
+  html += `<div style="font-size:11px;color:var(--text-muted);margin-bottom:14px;">Report date: ${formatDate(p.tabe.reportDate) || esc(p.tabe.reportDate)}</div>`;
+}
   html += subtestHtml('Mathematics', p.tabe.math);
   html += subtestHtml('Reading', p.tabe.reading);
   body.innerHTML = html;
@@ -1183,7 +1183,11 @@ function buildWIR(p) {
   }
 
   const metrics = [];
-  if (iv.percent)       metrics.push({ label: 'Progress',   val: iv.percent });
+  if (iv.percent) {
+  const pctNum = Number(iv.percent);
+  const pctDisplay = pctNum <= 1 ? (pctNum * 100).toFixed(0) : pctNum.toFixed(0);
+  metrics.push({ label: 'Progress', val: pctDisplay + '%' });
+  }
   if (iv.thisWeekHours) metrics.push({ label: 'This Week',  val: iv.thisWeekHours });
   if (iv.credits)       metrics.push({ label: 'Credits',    val: iv.credits });
   if (iv.streak)        metrics.push({ label: 'Streak',     val: iv.streak });

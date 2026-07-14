@@ -786,38 +786,57 @@
 // State
 // ─────────────────────────────────────────────────────────────
 let _profile = null;
-
+let _profile = null;
+const STORAGE_KEY = 'tjcStudentId';
 // ─────────────────────────────────────────────────────────────
 // Login
 // ─────────────────────────────────────────────────────────────
-function lookupStudent() {
+async function lookupStudent(silent) {
   const input = document.getElementById('studentIdInput');
-  const id    = (input.value || '').trim();
+  const id    = silent ? localStorage.getItem(STORAGE_KEY) : (input.value || '').trim();
   if (!id) {
-    showLoginError('Please enter your Student ID. Check your ID badge');
+    if (!silent) showLoginError('Please enter your Student ID.');
     return;
   }
 
   const btn = document.getElementById('loginBtn');
-  btn.disabled    = true;
-  btn.textContent = 'Looking up…';
-  hideLoginError();
+  if (!silent) {
+    btn.disabled    = true;
+    btn.textContent = 'Looking up…';
+    hideLoginError();
+  }
 
-  google.script.run
-    .withSuccessHandler(function(result) {
+  try {
+    const url    = `${APPS_SCRIPT_URL}?studentId=${encodeURIComponent(id)}`;
+    const resp   = await fetch(url);
+    const result = await resp.json();
+
+    if (!silent) {
       btn.disabled    = false;
       btn.textContent = 'View My Progress';
-      if (result.error) { showLoginError(result.error); return; }
-      if (!result.profile) { showLoginError("We couldn't find a student with that ID. Double-check and try again."); return; }
-      _profile = result.profile;
-      showProfile(_profile);
-    })
-    .withFailureHandler(function(err) {
+    }
+
+    if (result.error || !result.profile) {
+      if (silent) {
+        // saved ID no longer valid — clear it and show login screen normally
+        localStorage.removeItem(STORAGE_KEY);
+        return;
+      }
+      showLoginError(result.error || "We couldn't find a student with that ID. Double-check and try again.");
+      return;
+    }
+
+    localStorage.setItem(STORAGE_KEY, id);
+    _profile = result.profile;
+    showProfile(_profile);
+
+  } catch(err) {
+    if (!silent) {
       btn.disabled    = false;
       btn.textContent = 'View My Progress';
       showLoginError('Something went wrong. Please try again.');
-    })
-    .getStudentProfile(id);
+    }
+  }
 }
 
 function showLoginError(msg) {
@@ -830,6 +849,7 @@ function hideLoginError() {
 }
 
 function logout() {
+  localStorage.removeItem(STORAGE_KEY);
   _profile = null;
   document.getElementById('profileScreen').style.display = 'none';
   document.getElementById('loginScreen').style.display   = 'flex';
@@ -1359,6 +1379,11 @@ function formatDate(iso) {
     return d.toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' });
   } catch(e) { return ''; }
 }
+document.addEventListener('DOMContentLoaded', () => {
+  if (localStorage.getItem(STORAGE_KEY)) {
+    lookupStudent(true);
+  }
+});
 </script>
 
 </body>

@@ -1,784 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Progress — Tulsa Job Corps</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap">
+  <?!= include('Themes'); ?>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    /* ── Themes ───────────────────────────────────────────── */
-   :root, [data-theme="dark"] {
-  --bg:        #1A1A18;
-  --bg2:       #222220;
-  --bg3:       #2A2A27;
-  --bg4:       #323230;
-  --bg-nav:    #161614;
-
-  --border:        #3A3830;
-  --border-bright: #524A40;
-
-  --accent:      #C4622E;
-  --accent-mid:  #A85228;
-  --accent-dim:  #7A3A1C;
-  --accent-glow: rgba(196, 98, 46, 0.10);
-
-  --text:       #F0E8DC;
-  --text-soft:  #C8B8A8;
-  --text-muted: #8A7A6A;
-
-  --danger:  #F04535;
-  --warn:    #F0A030;
-  --ok:      #38CC6A;
-  --neutral: #9A9088;
-
-  --high:    #F04535;
-  --medium:  #F0A030;
-  --low:     #38CC6A;
-  --unknown: #807870;
-
-  --shadow-card:  0 2px 10px rgba(0,0,0,0.38);
-  --shadow-modal: 0 10px 40px rgba(0,0,0,0.60);
-  --shadow-raise: 0 4px 16px rgba(0,0,0,0.42);
-
-  --font: 'Figtree', system-ui, sans-serif;
-
-  --space-xs:  4px;
-  --space-sm:  9px;
-  --space-md:  16px;
-  --space-lg:  26px;
-  --space-xl:  40px;
-}
-
-[data-theme="light"] {
-  --bg:        #F5EDE4;
-  --bg2:       #FFFFFF;
-  --bg3:       #EDE0D4;
-  --bg4:       #E0D0C4;
-  --bg-nav:    #1C1714;
-
-  --border:        #D4B8A8;
-  --border-bright: #B8886A;
-
-  --accent:      #9A4020;
-  --accent-mid:  #7E3018;
-  --accent-dim:  #622010;
-  --accent-glow: rgba(154, 64, 32, 0.12);
-
-  --text:       #1C1410;
-  --text-soft:  #3A2A1E;
-  --text-muted: #7A6050;
-
-  --danger:  #CC2A18;
-  --warn:    #C06A10;
-  --ok:      #1E7A3C;
-  --neutral: #6B6358;
-
-  --high:    #CC2A18;
-  --medium:  #C06A10;
-  --low:     #1E7A3C;
-  --unknown: #6B6358;
-
-  --shadow-card:  0 1px 4px rgba(0,0,0,0.10);
-  --shadow-modal: 0 8px 32px rgba(0,0,0,0.18);
-  --shadow-raise: 0 3px 10px rgba(0,0,0,0.12);
-
-  --hover-bg:  #E8D8C8;
-  --active-bg: #DCC8B4;
-}
-
-[data-theme="obsidian"] {
-  --bg:        #000000;
-  --bg2:       #0E0B08;
-  --bg3:       #1F150C;
-  --bg4:       #2E2018;
-  --bg-nav:    #000000;
-
-  --border:        #2E2018;
-  --border-bright: #412D15;
-
-  --accent:      #C8A878;
-  --accent-mid:  #A88858;
-  --accent-dim:  #6E5A38;
-  --accent-glow: rgba(200, 168, 120, 0.10);
-
-  --text:       #E1DCC9;
-  --text-soft:  #C4BC9C;
-  --text-muted: #7A7060;
-
-  --danger:  #E04030;
-  --warn:    #D48820;
-  --ok:      #40AA5A;
-  --neutral: #888070;
-
-  --high:    #E04030;
-  --medium:  #D48820;
-  --low:     #40AA5A;
-  --unknown: #706860;
-
-  --shadow-card:  0 2px 12px rgba(0,0,0,0.55);
-  --shadow-modal: 0 12px 48px rgba(0,0,0,0.75);
-  --shadow-raise: 0 4px 18px rgba(0,0,0,0.55);
-
-  --font: 'Figtree', system-ui, sans-serif;
-
-  --space-xs:  4px;
-  --space-sm:  9px;
-  --space-md:  16px;
-  --space-lg:  26px;
-  --space-xl:  40px;
-}
-
-[data-theme="atlas"] {
-  --bg:        #141C2E;
-  --bg2:       #1B2740;
-  --bg3:       #24344F;
-  --bg4:       #2E4161;
-  --bg-nav:    #101827;
-
-  --border:        #2B3A57;
-  --border-bright: #3E5578;
-
-  --accent:      #D2B48C;
-  --accent-mid:  #B8956A;
-  --accent-dim:  #8A6F4E;
-  --accent-glow: rgba(210, 180, 140, 0.12);
-
-  --text:       #EAF0F8;
-  --text-soft:  #C7D2E3;
-  --text-muted: #7E8CA3;
-
-  --danger:  #E35D4A;
-  --warn:    #D6A04A;
-  --ok:      #4BBF7A;
-  --neutral: #8A97AA;
-
-  --high:    #E35D4A;
-  --medium:  #D6A04A;
-  --low:     #4BBF7A;
-  --unknown: #6F7C91;
-
-  --shadow-card:  0 2px 10px rgba(0,0,0,0.45);
-  --shadow-modal: 0 14px 50px rgba(0,0,0,0.65);
-  --shadow-raise: 0 6px 18px rgba(0,0,0,0.50);
-
-  --font: 'Figtree', system-ui, sans-serif;
-
-  --space-xs:  4px;
-  --space-sm:  9px;
-  --space-md:  16px;
-  --space-lg:  26px;
-  --space-xl:  40px;
-}
-/* ── Forest ─────────────────────────────────────────────── */
-[data-theme="forest"] {
-  --bg:        #141A12;
-  --bg2:       #1A2216;
-  --bg3:       #212C1C;
-  --bg4:       #293722;
-  --bg-nav:    #0F1410;
-
-  --border:        #2E3D28;
-  --border-bright: #3D5234;
-
-  --accent:      #7BAF5A;
-  --accent-mid:  #5E8F40;
-  --accent-dim:  #426830;
-  --accent-glow: rgba(123,175,90,0.12);
-
-  --text:       #DFF0D2;
-  --text-soft:  #B8D4A8;
-  --text-muted: #7A9A6A;
-
-  --danger:  #D4624A;
-  --warn:    #C8922A;
-  --ok:      #6BBF4A;
-  --neutral: #8A9E7A;
-
-  --high:    #D4624A;
-  --medium:  #C8922A;
-  --low:     #6BBF4A;
-  --unknown: #6A7E60;
-
-  --shadow-card:  0 2px 10px rgba(0,0,0,0.45);
-  --shadow-modal: 0 10px 40px rgba(0,0,0,0.65);
-  --shadow-raise: 0 4px 16px rgba(0,0,0,0.48);
-
-  --font: 'Figtree', system-ui, sans-serif;
-  --space-xs:4px;--space-sm:9px;--space-md:16px;--space-lg:26px;--space-xl:40px;
-}
-
-/* ── Desert ─────────────────────────────────────────────── */
-[data-theme="desert"] {
-  --bg:        #201A14;
-  --bg2:       #29221B;
-  --bg3:       #342B22;
-  --bg4:       #40352A;
-  --bg-nav:    #18120D;
-
-  --border:        #564536;
-  --border-bright: #76604A;
-
-  --accent:      #4FB9B5;
-  --accent-mid:  #359C99;
-  --accent-dim:  #267877;
-  --accent-glow: rgba(79,185,181,.14);
-
-  --text:       #F7EBD8;
-  --text-soft:  #DDC9A8;
-  --text-muted: #A1886C;
-
-  --danger:  #D45B48;
-  --warn:    #D9B03C;
-  --ok:      #82BB58;
-  --neutral: #94836F;
-
-  --high:    #D45B48;
-  --medium:  #D9B03C;
-  --low:     #82BB58;
-  --unknown: #746452;
-
-  --shadow-card:  0 2px 10px rgba(0,0,0,0.45);
-  --shadow-modal: 0 10px 40px rgba(0,0,0,0.65);
-  --shadow-raise: 0 4px 16px rgba(0,0,0,0.48);
-
-  --font: 'Figtree', system-ui, sans-serif;
-  --space-xs:4px;--space-sm:9px;--space-md:16px;--space-lg:26px;--space-xl:40px;
-}
-
-/* ── Ocean ──────────────────────────────────────────────── */
-[data-theme="ocean"] {
-  --bg:        #0C1820;
-  --bg2:       #122030;
-  --bg3:       #182840;
-  --bg4:       #1E3050;
-  --bg-nav:    #081018;
-
-  --border:        #1E3050;
-  --border-bright: #2A4468;
-
-  --accent:      #3A9EBF;
-  --accent-mid:  #2A7E9F;
-  --accent-dim:  #1A5E7A;
-  --accent-glow: rgba(58,158,191,0.12);
-
-  --text:       #D8EEF8;
-  --text-soft:  #A8CEDF;
-  --text-muted: #5A8AA0;
-
-  --danger:  #D45A4A;
-  --warn:    #C89A3A;
-  --ok:      #3ABF8A;
-  --neutral: #608090;
-
-  --high:    #D45A4A;
-  --medium:  #C89A3A;
-  --low:     #3ABF8A;
-  --unknown: #506878;
-
-  --shadow-card:  0 2px 10px rgba(0,0,0,0.50);
-  --shadow-modal: 0 10px 40px rgba(0,0,0,0.70);
-  --shadow-raise: 0 4px 16px rgba(0,0,0,0.52);
-
-  --font: 'Figtree', system-ui, sans-serif;
-  --space-xs:4px;--space-sm:9px;--space-md:16px;--space-lg:26px;--space-xl:40px;
-}
-
-/* ── Arctic ─────────────────────────────────────────────── */
-[data-theme="arctic"] {
-  --bg:        #E8EEF4;
-  --bg2:       #F4F8FC;
-  --bg3:       #DCE4EE;
-  --bg4:       #CCD6E4;
-  --bg-nav:    #1A2830;
-
-  --border:        #B8C8D8;
-  --border-bright: #8AAAC0;
-
-  --accent:      #3A6E8A;
-  --accent-mid:  #2A5470;
-  --accent-dim:  #1A3A52;
-  --accent-glow: rgba(58,110,138,0.12);
-
-  --text:       #1A2830;
-  --text-soft:  #2E4050;
-  --text-muted: #6A8090;
-
-  --danger:  #C03A2A;
-  --warn:    #B07A18;
-  --ok:      #2A8A4A;
-  --neutral: #607080;
-
-  --high:    #C03A2A;
-  --medium:  #B07A18;
-  --low:     #2A8A4A;
-  --unknown: #607080;
-
-  --shadow-card:  0 1px 6px rgba(0,0,0,0.12);
-  --shadow-modal: 0 8px 32px rgba(0,0,0,0.20);
-  --shadow-raise: 0 3px 12px rgba(0,0,0,0.14);
-
-  --font: 'Figtree', system-ui, sans-serif;
-  --space-xs:4px;--space-sm:9px;--space-md:16px;--space-lg:26px;--space-xl:40px;
-}
-
-/* ── Midnight ───────────────────────────────────────────── */
-[data-theme="midnight"] {
-  --bg:        #0A0C14;
-  --bg2:       #10141E;
-  --bg3:       #161C2A;
-  --bg4:       #1C2436;
-  --bg-nav:    #060810;
-
-  --border:        #1E2840;
-  --border-bright: #2A3858;
-
-  --accent:      #5A78C8;
-  --accent-mid:  #4058A8;
-  --accent-dim:  #2C3E80;
-  --accent-glow: rgba(90,120,200,0.12);
-
-  --text:       #D8DCF0;
-  --text-soft:  #A8B0D0;
-  --text-muted: #5A6280;
-
-  --danger:  #D04848;
-  --warn:    #C08830;
-  --ok:      #48B870;
-  --neutral: #606880;
-
-  --high:    #D04848;
-  --medium:  #C08830;
-  --low:     #48B870;
-  --unknown: #505870;
-
-  --shadow-card:  0 2px 12px rgba(0,0,0,0.55);
-  --shadow-modal: 0 12px 48px rgba(0,0,0,0.75);
-  --shadow-raise: 0 4px 18px rgba(0,0,0,0.55);
-
-  --font: 'Figtree', system-ui, sans-serif;
-  --space-xs:4px;--space-sm:9px;--space-md:16px;--space-lg:26px;--space-xl:40px;
-}
-
-/* ── Slate ──────────────────────────────────────────────── */
-[data-theme="slate"] {
-  --bg:        #161820;
-  --bg2:       #1E2028;
-  --bg3:       #262832;
-  --bg4:       #2E303C;
-  --bg-nav:    #0E1018;
-
-  --border:        #2E3040;
-  --border-bright: #424558;
-
-  --accent:      #C8A84A;
-  --accent-mid:  #A88830;
-  --accent-dim:  #7A6418;
-  --accent-glow: rgba(200,168,74,0.12);
-
-  --text:       #E8E4D8;
-  --text-soft:  #C0BAA8;
-  --text-muted: #7A7868;
-
-  --danger:  #C84848;
-  --warn:    #C89030;
-  --ok:      #58B868;
-  --neutral: #808898;
-
-  --high:    #C84848;
-  --medium:  #C89030;
-  --low:     #58B868;
-  --unknown: #686E7E;
-
-  --shadow-card:  0 2px 10px rgba(0,0,0,0.45);
-  --shadow-modal: 0 10px 40px rgba(0,0,0,0.65);
-  --shadow-raise: 0 4px 16px rgba(0,0,0,0.48);
-
-  --font: 'Figtree', system-ui, sans-serif;
-  --space-xs:4px;--space-sm:9px;--space-md:16px;--space-lg:26px;--space-xl:40px;
-}
-
-/* ── Burgundy ───────────────────────────────────────────── */
-[data-theme="burgundy"] {
-  --bg:        #180C10;
-  --bg2:       #221018;
-  --bg3:       #2C1820;
-  --bg4:       #382028;
-  --bg-nav:    #100810;
-
-  --border:        #382028;
-  --border-bright: #502E3A;
-
-  --accent:      #C84A6A;
-  --accent-mid:  #A83050;
-  --accent-dim:  #7A1E38;
-  --accent-glow: rgba(200,74,106,0.12);
-
-  --text:       #F0E0E4;
-  --text-soft:  #D0B8C0;
-  --text-muted: #907080;
-
-  --danger:  #D04040;
-  --warn:    #C88830;
-  --ok:      #50B868;
-  --neutral: #907080;
-
-  --high:    #D04040;
-  --medium:  #C88830;
-  --low:     #50B868;
-  --unknown: #705868;
-
-  --shadow-card:  0 2px 10px rgba(0,0,0,0.50);
-  --shadow-modal: 0 10px 40px rgba(0,0,0,0.70);
-  --shadow-raise: 0 4px 16px rgba(0,0,0,0.52);
-
-  --font: 'Figtree', system-ui, sans-serif;
-  --space-xs:4px;--space-sm:9px;--space-md:16px;--space-lg:26px;--space-xl:40px;
-}
-
-/* ── Navy ───────────────────────────────────────────────── */
-[data-theme="navy"] {
-  --bg:        #0C1220;
-  --bg2:       #121A2E;
-  --bg3:       #18223C;
-  --bg4:       #1E2C4A;
-  --bg-nav:    #080E18;
-
-  --border:        #1E2C4A;
-  --border-bright: #2A3E68;
-
-  --accent:      #B89040;
-  --accent-mid:  #987020;
-  --accent-dim:  #705008;
-  --accent-glow: rgba(184,144,64,0.12);
-
-  --text:       #E0E8F4;
-  --text-soft:  #B0C0D8;
-  --text-muted: #587090;
-
-  --danger:  #C84040;
-  --warn:    #C09030;
-  --ok:      #40B870;
-  --neutral: #608098;
-
-  --high:    #C84040;
-  --medium:  #C09030;
-  --low:     #40B870;
-  --unknown: #486080;
-
-  --shadow-card:  0 2px 12px rgba(0,0,0,0.55);
-  --shadow-modal: 0 12px 48px rgba(0,0,0,0.75);
-  --shadow-raise: 0 4px 18px rgba(0,0,0,0.55);
-
-  --font: 'Figtree', system-ui, sans-serif;
-  --space-xs:4px;--space-sm:9px;--space-md:16px;--space-lg:26px;--space-xl:40px;
-}
-
-/* ── Ember ──────────────────────────────────────────────── */
-[data-theme="ember"] {
-   --bg:        #180909;
-  --bg2:       #220D0C;
-  --bg3:       #2D1310;
-  --bg4:       #391A15;
-  --bg-nav:    #120606;
-
-  --border:        #53251B;
-  --border-bright: #743424;
-
-  --accent:      #F05A28;
-  --accent-mid:  #D93A22;
-  --accent-dim:  #A81F15;
-  --accent-glow: rgba(240,90,40,.18);
-
-  --text:       #FFE7DA;
-  --text-soft:  #F2BEA3;
-  --text-muted: #AE7A67;
-
-  --danger:  #F24A3C;
-  --warn:    #F0B032;
-  --ok:      #78C65C;
-  --neutral: #8D6E65;
-
-  --high:    #F24A3C;
-  --medium:  #F0B032;
-  --low:     #78C65C;
-  --unknown: #6D4C44;
-
-  --shadow-card:  0 2px 10px rgba(0,0,0,0.50);
-  --shadow-modal: 0 10px 40px rgba(0,0,0,0.70);
-  --shadow-raise: 0 4px 16px rgba(0,0,0,0.52);
-
-  --font: 'Figtree', system-ui, sans-serif;
-  --space-xs:4px;--space-sm:9px;--space-md:16px;--space-lg:26px;--space-xl:40px;
-}
-
-/* ── Walnut ─────────────────────────────────────────────── */
-[data-theme="walnut"] {
-   --bg:        #120D09;
-  --bg2:       #18120D;
-  --bg3:       #211811;
-  --bg4:       #2B2018;
-  --bg-nav:    #0D0906;
-
-  --border:        #3A2B20;
-  --border-bright: #5C4330;
-
-  --accent:      #C8A15A;
-  --accent-mid:  #A88238;
-  --accent-dim:  #785A1E;
-  --accent-glow: rgba(200,161,90,.14);
-
-  --text:       #F2E6D6;
-  --text-soft:  #D3BFA7;
-  --text-muted: #9A8168;
-
-  --danger:  #C94A42;
-  --warn:    #D0A040;
-  --ok:      #71B95A;
-  --neutral: #8C7767;
-
-  --high:    #C94A42;
-  --medium:  #D0A040;
-  --low:     #71B95A;
-  --unknown: #655145;
-
-  --shadow-card:  0 2px 10px rgba(0,0,0,0.48);
-  --shadow-modal: 0 10px 40px rgba(0,0,0,0.68);
-  --shadow-raise: 0 4px 16px rgba(0,0,0,0.50);
-
-  --font: 'Figtree', system-ui, sans-serif;
-  --space-xs:4px;--space-sm:9px;--space-md:16px;--space-lg:26px;--space-xl:40px;
-}
-
-/* ── Coffee ─────────────────────────────────────────────── */
-[data-theme="coffee"] {
-  --bg:        #120C08;
-  --bg2:       #1C1410;
-  --bg3:       #261C18;
-  --bg4:       #302420;
-  --bg-nav:    #0C0804;
-
-  --border:        #302420;
-  --border-bright: #483630;
-
-  --accent:      #B07840;
-  --accent-mid:  #906028;
-  --accent-dim:  #684410;
-  --accent-glow: rgba(176,120,64,0.12);
-
-  --text:       #EAD8C0;
-  --text-soft:  #C4A880;
-  --text-muted: #806050;
-
-  --danger:  #C44038;
-  --warn:    #C09030;
-  --ok:      #60B848;
-  --neutral: #806860;
-
-  --high:    #C44038;
-  --medium:  #C09030;
-  --low:     #60B848;
-  --unknown: #604840;
-
-  --shadow-card:  0 2px 10px rgba(0,0,0,0.52);
-  --shadow-modal: 0 10px 40px rgba(0,0,0,0.72);
-  --shadow-raise: 0 4px 16px rgba(0,0,0,0.54);
-
-  --font: 'Figtree', system-ui, sans-serif;
-  --space-xs:4px;--space-sm:9px;--space-md:16px;--space-lg:26px;--space-xl:40px;
-}
-
-/* ── Autumn ─────────────────────────────────────────────── */
-[data-theme="autumn"] {
-  --bg:        #1A120B;
-  --bg2:       #23170E;
-  --bg3:       #2E1E12;
-  --bg4:       #3A2818;
-  --bg-nav:    #120C06;
-
-  --border:        #4A2F1D;
-  --border-bright: #6B4528;
-
-  --accent:      #D46A2A;
-  --accent-mid:  #B64E1D;
-  --accent-dim:  #8A3510;
-  --accent-glow: rgba(212,106,42,.14);
-
-  --text:       #F6E5D0;
-  --text-soft:  #D8BE98;
-  --text-muted: #9E7A5A;
-
-  --danger:  #D14438;
-  --warn:    #D8A033;
-  --ok:      #7CBF55;
-  --neutral: #8E735F;
-
-  --high:    #D14438;
-  --medium:  #D8A033;
-  --low:     #7CBF55;
-  --unknown: #6F5544;
-
-  --shadow-card:  0 2px 10px rgba(0,0,0,0.48);
-  --shadow-modal: 0 10px 40px rgba(0,0,0,0.68);
-  --shadow-raise: 0 4px 16px rgba(0,0,0,0.50);
-
-  --font: 'Figtree', system-ui, sans-serif;
-  --space-xs:4px;--space-sm:9px;--space-md:16px;--space-lg:26px;--space-xl:40px;
-}
-
-/* ── Graphite ───────────────────────────────────────────── */
-[data-theme="graphite"] {
-  --bg:        #141414;
-  --bg2:       #1C1C1C;
-  --bg3:       #242424;
-  --bg4:       #2C2C2C;
-  --bg-nav:    #0C0C0C;
-
-  --border:        #2C2C2C;
-  --border-bright: #404040;
-
-  --accent:      #E05A28;
-  --accent-mid:  #C04018;
-  --accent-dim:  #902808;
-  --accent-glow: rgba(224,90,40,0.12);
-
-  --text:       #E8E8E8;
-  --text-soft:  #B8B8B8;
-  --text-muted: #707070;
-
-  --danger:  #D04040;
-  --warn:    #C89030;
-  --ok:      #50B850;
-  --neutral: #808080;
-
-  --high:    #D04040;
-  --medium:  #C89030;
-  --low:     #50B850;
-  --unknown: #606060;
-
-  --shadow-card:  0 2px 10px rgba(0,0,0,0.55);
-  --shadow-modal: 0 10px 40px rgba(0,0,0,0.75);
-  --shadow-raise: 0 4px 16px rgba(0,0,0,0.58);
-
-  --font: 'Figtree', system-ui, sans-serif;
-  --space-xs:4px;--space-sm:9px;--space-md:16px;--space-lg:26px;--space-xl:40px;
-}
-
-/* ── Cobalt ─────────────────────────────────────────────── */
-[data-theme="cobalt"] {
-  --bg:        #0A1020;
-  --bg2:       #101828;
-  --bg3:       #182030;
-  --bg4:       #202840;
-  --bg-nav:    #060C18;
-
-  --border:        #202840;
-  --border-bright: #2E3C5A;
-
-  --accent:      #4A90D0;
-  --accent-mid:  #2E70B0;
-  --accent-dim:  #185088;
-  --accent-glow: rgba(74,144,208,0.12);
-
-  --text:       #D8E4F4;
-  --text-soft:  #A0B8D8;
-  --text-muted: #507090;
-
-  --danger:  #D04848;
-  --warn:    #C09030;
-  --ok:      #40B878;
-  --neutral: #507890;
-
-  --high:    #D04848;
-  --medium:  #C09030;
-  --low:     #40B878;
-  --unknown: #406080;
-
-  --shadow-card:  0 2px 12px rgba(0,0,0,0.55);
-  --shadow-modal: 0 12px 48px rgba(0,0,0,0.75);
-  --shadow-raise: 0 4px 18px rgba(0,0,0,0.55);
-
-  --font: 'Figtree', system-ui, sans-serif;
-  --space-xs:4px;--space-sm:9px;--space-md:16px;--space-lg:26px;--space-xl:40px;
-}
-
-/* ── Sage ───────────────────────────────────────────────── */
-[data-theme="sage"] {
-  --bg:        #EAEDe8;
-  --bg2:       #F4F6F0;
-  --bg3:       #DDE2D8;
-  --bg4:       #CDD4C8;
-  --bg-nav:    #1E2820;
-
-  --border:        #B8C4B0;
-  --border-bright: #8AA08A;
-
-  --accent:      #4A7A50;
-  --accent-mid:  #346038;
-  --accent-dim:  #204428;
-  --accent-glow: rgba(74,122,80,0.12);
-
-  --text:       #1E2820;
-  --text-soft:  #344038;
-  --text-muted: #607868;
-
-  --danger:  #B03030;
-  --warn:    #A07020;
-  --ok:      #308048;
-  --neutral: #607868;
-
-  --high:    #B03030;
-  --medium:  #A07020;
-  --low:     #308048;
-  --unknown: #587068;
-
-  --shadow-card:  0 1px 6px rgba(0,0,0,0.10);
-  --shadow-modal: 0 8px 32px rgba(0,0,0,0.18);
-  --shadow-raise: 0 3px 12px rgba(0,0,0,0.12);
-
-  --font: 'Figtree', system-ui, sans-serif;
-  --space-xs:4px;--space-sm:9px;--space-md:16px;--space-lg:26px;--space-xl:40px;
-}
-
-/* ── Plum ───────────────────────────────────────────────── */
-[data-theme="plum"] {
-  --bg:        #140C1C;
-  --bg2:       #1C1228;
-  --bg3:       #241834;
-  --bg4:       #2E2040;
-  --bg-nav:    #0C0814;
-
-  --border:        #2E2040;
-  --border-bright: #443058;
-
-  --accent:      #B870A0;
-  --accent-mid:  #985080;
-  --accent-dim:  #703060;
-  --accent-glow: rgba(184,112,160,0.12);
-
-  --text:       #EED8F0;
-  --text-soft:  #C8A8D0;
-  --text-muted: #806888;
-
-  --danger:  #D04848;
-  --warn:    #C09030;
-  --ok:      #50B870;
-  --neutral: #806888;
-
-  --high:    #D04848;
-  --medium:  #C09030;
-  --low:     #50B870;
-  --unknown: #605070;
-
-  --shadow-card:  0 2px 12px rgba(0,0,0,0.55);
-  --shadow-modal: 0 12px 48px rgba(0,0,0,0.75);
-  --shadow-raise: 0 4px 18px rgba(0,0,0,0.55);
-
-  --font: 'Figtree', system-ui, sans-serif;
-  --space-xs:4px;--space-sm:9px;--space-md:16px;--space-lg:26px;--space-xl:40px;
-}
-    /* ── Base styles ──────────────────────────────────────── */
     body {
       font-family: var(--font);
       background: var(--bg);
@@ -879,8 +109,15 @@
       transition: border-color 0.15s, box-shadow 0.15s;
       text-align: center;
     }
-    .login-input::placeholder { color: var(--text-muted); letter-spacing: 1px; font-size: 14px; }
-    .login-input:focus { border-color: var(--accent-mid); box-shadow: 0 0 0 3px var(--accent-glow); }
+    .login-input::placeholder {
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      font-size: 14px;
+    }
+    .login-input:focus {
+      border-color: var(--accent-mid);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
 
     .login-btn {
       width: 100%;
@@ -896,8 +133,8 @@
       cursor: pointer;
       transition: background 0.15s;
     }
-    .login-btn:hover    { background: var(--accent-mid); }
-    .login-btn:active   { background: var(--accent-dim); }
+    .login-btn:hover   { background: var(--accent-mid); }
+    .login-btn:active  { background: var(--accent-dim); }
     .login-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
     .login-error {
@@ -937,35 +174,50 @@
       z-index: 50;
     }
 
-    .profile-nav-brand { display: flex; align-items: center; gap: 9px; }
+    .profile-nav-brand {
+      display: flex; align-items: center; gap: 9px;
+    }
     .profile-nav-brand svg { color: var(--accent); opacity: 0.85; }
-    .profile-nav-title { font-size: 14px; font-weight: 700; color: var(--accent); }
-    .profile-nav-sub   { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
-
-    .profile-nav-actions { display: flex; align-items: center; gap: 10px; }
-
+    .profile-nav-title {
+      font-size: 14px; font-weight: 700; color: var(--accent);
+    }
+    .profile-nav-sub {
+      font-size: 11px; color: var(--text-muted); margin-top: 1px;
+    }
+    .profile-nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
     .btn-theme {
       width: 34px; height: 34px; padding: 0;
       display: flex; align-items: center; justify-content: center;
       background: var(--bg3); border: 1px solid var(--border);
       border-radius: 5px; color: var(--text-muted); cursor: pointer;
-      transition: background 0.15s, color 0.15s;
+      transition: background 0.15s, color 0.15s; flex-shrink: 0;
     }
-    .btn-theme:hover { background: var(--bg4); color: var(--accent); }
-    .btn-theme svg   { width: 15px; height: 15px; }
+    .btn-theme:hover  { background: var(--bg4); color: var(--accent); }
+    .btn-theme:active { transform: scale(0.94); }
+    .btn-theme svg { width: 15px; height: 15px; }
+    .btn-theme {margin-left: auto;}
 
-    .btn-logout {
-      background: var(--bg3);
-      border: 1px solid var(--border);
-      border-radius: 5px;
-      color: var(--text-muted);
-      font-family: var(--font);
-      font-size: 12px;
-      font-weight: 600;
-      padding: 6px 12px;
-      cursor: pointer;
-      transition: background 0.15s, color 0.15s;
+    .theme-label {
+      font-size: 11px; color: var(--text-muted); font-weight: 600;
+      white-space: nowrap; transition: color 0.15s;
     }
+    @media (max-width: 768px) { .theme-label { display: none; } }
+      .btn-logout {
+        background: var(--bg3);
+        border: 1px solid var(--border);
+        border-radius: 5px;
+        color: var(--text-muted);
+        font-family: var(--font);
+        font-size: 12px;
+        font-weight: 600;
+        padding: 6px 12px;
+        cursor: pointer;
+        transition: background 0.15s, color 0.15s;
+      }
     .btn-logout:hover { background: var(--bg4); color: var(--text); }
 
     .profile-main {
@@ -998,9 +250,18 @@
     }
 
     .student-info { flex: 1; min-width: 0; }
-    .student-name-display { font-size: 20px; font-weight: 800; color: var(--text); line-height: 1.2; }
-    .student-id-display   { font-size: 12px; color: var(--text-muted); margin-top: 3px; font-weight: 500; }
-    .student-tagline      { font-size: 13px; color: var(--text-soft); margin-top: 5px; line-height: 1.4; }
+    .student-name-display {
+      font-size: 20px; font-weight: 800;
+      color: var(--text); line-height: 1.2;
+    }
+    .student-id-display {
+      font-size: 12px; color: var(--text-muted);
+      margin-top: 3px; font-weight: 500;
+    }
+    .student-tagline {
+      font-size: 13px; color: var(--text-soft);
+      margin-top: 5px; line-height: 1.4;
+    }
 
     /* ── Risk Score ───────────────────────────────────────── */
     .risk-block {
@@ -1023,19 +284,26 @@
       align-items: center; justify-content: center;
       flex-shrink: 0;
     }
-    .risk-score-num   { font-size: 22px; font-weight: 800; line-height: 1; }
-    .risk-score-denom { font-size: 9px; color: var(--text-muted); font-weight: 600; margin-top: 1px; }
+    .risk-score-num {
+      font-size: 22px; font-weight: 800; line-height: 1;
+    }
+    .risk-score-denom {
+      font-size: 9px; color: var(--text-muted); font-weight: 600; margin-top: 1px;
+    }
     .risk-score-num.HIGH    { color: var(--high); }
     .risk-score-num.MEDIUM  { color: var(--medium); }
     .risk-score-num.LOW     { color: var(--low); }
     .risk-score-num.UNKNOWN { color: var(--unknown); }
 
     .risk-detail { flex: 1; }
-    .risk-level-label { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+    .risk-level-label {
+      font-size: 15px; font-weight: 700; margin-bottom: 4px;
+    }
     .risk-level-label.HIGH    { color: var(--high); }
     .risk-level-label.MEDIUM  { color: var(--medium); }
     .risk-level-label.LOW     { color: var(--low); }
     .risk-level-label.UNKNOWN { color: var(--unknown); }
+
     .risk-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
 
     .risk-explainer-btn {
@@ -1068,14 +336,30 @@
       transition: background 0.12s;
     }
     .section-header:hover { background: var(--bg4); }
-    .section-header-icon  { color: var(--accent-dim); display: flex; align-items: center; flex-shrink: 0; }
+
+    .section-header-icon {
+      color: var(--accent-dim);
+      display: flex; align-items: center;
+      flex-shrink: 0;
+    }
     .section-header-icon svg { width: 16px; height: 16px; }
-    .section-title   { font-size: 13px; font-weight: 700; color: var(--text-soft); text-transform: uppercase; letter-spacing: 0.5px; flex: 1; }
-    .section-chevron { font-size: 11px; color: var(--text-muted); transition: transform 0.2s ease; }
+
+    .section-title {
+      font-size: 13px; font-weight: 700;
+      color: var(--text-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      flex: 1;
+    }
+
+    .section-chevron {
+      font-size: 11px; color: var(--text-muted);
+      transition: transform 0.2s ease;
+    }
     .section-chevron.collapsed { transform: rotate(-90deg); }
-    .section-body    { padding: 16px 18px; }
+
+    .section-body { padding: 16px 18px; }
     .section-body.hidden { display: none; }
-    .section-week-label { font-size: 11px; color: var(--text-muted); font-weight: 600; margin-left: auto; margin-right: 8px; white-space: nowrap; }
 
     /* ── Info rows ────────────────────────────────────────── */
     .info-row {
@@ -1084,60 +368,124 @@
       font-size: 14px; gap: 12px;
     }
     .info-row:last-child { border-bottom: none; }
-    .info-row .label { color: var(--text-muted); font-size: 13px; font-weight: 500; flex-shrink: 0; }
+    .info-row .label {
+      color: var(--text-muted); font-size: 13px; font-weight: 500; flex-shrink: 0;
+    }
     .info-row .value { font-weight: 600; color: var(--text); text-align: right; }
 
     /* ── Progress bar ─────────────────────────────────────── */
-    .prog-wrap  { display: flex; align-items: center; gap: 10px; min-width: 120px; }
-    .prog-bar   { flex: 1; height: 6px; background: var(--bg4); border-radius: 2px; overflow: hidden; }
-    .prog-fill  { height: 100%; border-radius: 0 2px 2px 0; transition: width 0.6s ease-out; }
+    .prog-wrap { display: flex; align-items: center; gap: 10px; min-width: 120px; }
+    .prog-bar { flex: 1; height: 6px; background: var(--bg4); border-radius: 2px; overflow: hidden; }
+    .prog-fill { height: 100%; border-radius: 0 2px 2px 0; transition: width 0.6s ease-out; }
     .prog-fill.good    { background: var(--low); }
     .prog-fill.warning { background: var(--medium); }
     .prog-fill.danger  { background: var(--high); }
     .prog-fill.trades  { background: var(--accent-mid); }
     .prog-label { font-size: 13px; font-weight: 700; color: var(--text); min-width: 36px; text-align: right; }
 
-    /* ── Schedule ─────────────────────────────────────────── */
-    .schedule-slot { display: flex; align-items: flex-start; gap: 14px; padding: 11px 0; border-bottom: 1px solid var(--border); }
-    .schedule-slot:last-child { border-bottom: none; }
-    .slot-period   { font-size: 11px; font-weight: 700; color: var(--accent-mid); white-space: nowrap; min-width: 60px; padding-top: 2px; }
-    .slot-detail   { flex: 1; min-width: 0; }
-    .slot-class    { font-size: 14px; font-weight: 600; color: var(--text); line-height: 1.3; }
-    .slot-location { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
-    .slot-academic { color: var(--accent-mid); font-size: 10px; margin-left: 4px; }
-    .schedule-empty { font-size: 13px; color: var(--text-muted); font-style: italic; padding: 4px 0; }
-
-    /* ── Hour metrics ─────────────────────────────────────── */
-    .hour-metrics { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 16px; }
-    .hour-metric  { background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 12px 8px; text-align: center; }
-    .hm-label { font-size: 9px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; display: block; }
-    .hm-val   { font-size: 20px; font-weight: 800; color: var(--text); }
-    .hm-val.ok   { color: var(--low); }
-    .hm-val.warn { color: var(--high); }
-
     /* ── Notes ────────────────────────────────────────────── */
-    .note-item { background: var(--bg3); border: 1px solid var(--border); border-radius: 7px; overflow: hidden; margin-bottom: 10px; }
+    .note-item {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
     .note-item:last-child { margin-bottom: 0; }
-    .note-meta   { display: flex; align-items: center; gap: 8px; padding: 7px 12px; background: var(--bg4); border-bottom: 1px solid var(--border); }
+    .note-meta {
+      display: flex; align-items: center; gap: 8px;
+      padding: 7px 12px;
+      background: var(--bg4);
+      border-bottom: 1px solid var(--border);
+    }
     .note-author { font-size: 11px; font-weight: 700; color: var(--accent); }
     .note-date   { font-size: 11px; color: var(--text-muted); }
     .note-text   { padding: 10px 12px; font-size: 13px; color: var(--text-soft); line-height: 1.6; white-space: pre-wrap; }
+    .note-empty  { font-size: 13px; color: var(--text-muted); font-style: italic; padding: 4px 0; }
 
     /* ── WIR metrics ──────────────────────────────────────── */
-    .wir-metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 8px; margin-bottom: 12px; }
-    .wir-metric  { background: var(--bg3); border: 1px solid var(--border); border-radius: 7px; padding: 10px 8px; text-align: center; }
+    .wir-metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+      gap: 8px; margin-bottom: 12px;
+    }
+    .wir-metric {
+      background: var(--bg3); border: 1px solid var(--border);
+      border-radius: 7px; padding: 10px 8px; text-align: center;
+    }
     .wm-label { display: block; font-size: 9px; font-weight: 700; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.4px; }
     .wm-val   { font-size: 15px; font-weight: 700; color: var(--text); }
 
     /* ── Time months ──────────────────────────────────────── */
-    .time-months      { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; margin-top: 12px; }
-    .time-month       { background: var(--bg3); border: 1px solid var(--border); border-radius: 7px; overflow: hidden; }
+    .time-months { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; margin-top: 12px; }
+    .time-month  { background: var(--bg3); border: 1px solid var(--border); border-radius: 7px; overflow: hidden; }
     .time-month-label { font-size: 11px; font-weight: 700; color: var(--accent-mid); padding: 5px 10px; background: var(--bg4); border-bottom: 1px solid var(--border); }
     .time-weeks { padding: 4px 0; }
     .time-week  { display: flex; justify-content: space-between; padding: 3px 10px; font-size: 12px; }
     .tw-label   { color: var(--text-muted); font-weight: 500; }
     .tw-val     { font-weight: 600; color: var(--text); }
 
+    /* ── Tags ─────────────────────────────────────────────── */
+    .tag {
+      display: inline-flex; align-items: center;
+      padding: 2px 8px; border-radius: 4px;
+      font-size: 12px; font-weight: 600;
+      border: 1px solid var(--border);
+      color: var(--text-muted); background: none;
+      margin-right: 4px; margin-top: 2px;
+    }
+    .tag-complete { color: var(--low);    border-color: rgba(56,204,106,.32); }
+    .tag-active   { color: var(--accent); border-color: rgba(196,98,46,.32); }
+    .tag-hs       { color: var(--accent); border-color: rgba(196,98,46,.32); }
+    .tag-hiset    { color: var(--accent-mid); border-color: rgba(168,82,40,.28); }
+    
+    .section-week-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-left: auto;
+      margin-right: 8px;
+      white-space: nowrap;
+    }
+    
+    .schedule-slot {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 11px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .schedule-slot:last-child { border-bottom: none; }
+    
+    .slot-time {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent-mid);
+      white-space: nowrap;
+      min-width: 110px;
+      padding-top: 2px;
+      letter-spacing: 0.2px;
+    }
+    
+    .slot-detail { flex: 1; min-width: 0; }
+    .slot-class {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.3;
+    }
+    .slot-location {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+    
+    .schedule-empty {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-style: italic;
+      padding: 4px 0;
+    }
     /* ── Explainer overlay ────────────────────────────────── */
     .explainer-overlay {
       position: fixed; inset: 0;
@@ -1147,15 +495,27 @@
       padding: 16px;
     }
     .explainer-box {
-      background: var(--bg2); border: 1px solid var(--border-bright);
-      border-radius: 12px; width: 100%; max-width: 500px;
+      background: var(--bg2);
+      border: 1px solid var(--border-bright);
+      border-radius: 12px;
+      width: 100%; max-width: 500px;
       max-height: 80vh; overflow-y: auto;
-      padding: 24px 22px; box-shadow: 0 10px 40px rgba(0,0,0,.6);
+      padding: 24px 22px;
+      box-shadow: 0 10px 40px rgba(0,0,0,.6);
     }
-    .explainer-title  { font-size: 16px; font-weight: 800; color: var(--text); margin-bottom: 12px; }
-    .explainer-text   { font-size: 13px; color: var(--text-muted); line-height: 1.65; margin-bottom: 14px; }
+    .explainer-title {
+      font-size: 16px; font-weight: 800; color: var(--text);
+      margin-bottom: 12px;
+    }
+    .explainer-text {
+      font-size: 13px; color: var(--text-muted); line-height: 1.65;
+      margin-bottom: 14px;
+    }
     .explainer-levels { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
-    .explainer-level  { padding: 10px 13px; border-radius: 6px; font-size: 13px; border-left: 3px solid transparent; line-height: 1.5; }
+    .explainer-level {
+      padding: 10px 13px; border-radius: 6px;
+      font-size: 13px; border-left: 3px solid transparent; line-height: 1.5;
+    }
     .explainer-level.high   { background: rgba(240,69,53,.08);  color: var(--high);   border-left-color: var(--high); }
     .explainer-level.medium { background: rgba(240,160,48,.08); color: var(--medium); border-left-color: var(--medium); }
     .explainer-level.low    { background: rgba(56,204,106,.08); color: var(--low);    border-left-color: var(--low); }
@@ -1168,7 +528,7 @@
     }
     .explainer-close:hover { background: var(--bg4); }
 
-    /* ── Loading ──────────────────────────────────────────── */
+    /* ── Loading / Error ──────────────────────────────────── */
     .loading-state {
       display: flex; flex-direction: column; align-items: center;
       gap: 16px; padding: 60px 20px; color: var(--text-muted);
@@ -1185,6 +545,7 @@
 
     .hidden { display: none !important; }
 
+    /* ── Responsive ───────────────────────────────────────── */
     @media (max-width: 480px) {
       .login-card { padding: 28px 22px; }
       .profile-main { padding: 16px 12px 80px; }
@@ -1198,6 +559,7 @@
 <!-- ── LOGIN SCREEN ───────────────────────────────────────── -->
 <div id="loginScreen" class="login-screen">
   <div class="login-card">
+
     <div class="login-brand">
       <div class="login-logo">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -1208,7 +570,9 @@
       <div class="login-title">My Progress</div>
       <div class="login-subtitle">Enter your Student ID to view your progress, courses, and training status.</div>
     </div>
+
     <div class="login-divider"></div>
+
     <label class="login-label" for="studentIdInput">Your Student ID</label>
     <input
       type="text"
@@ -1221,32 +585,29 @@
       inputmode="text"
       onkeydown="if(event.key==='Enter') lookupStudent()"
     >
+
     <button class="login-btn" id="loginBtn" onclick="lookupStudent()">
       View My Progress
     </button>
+
     <div id="loginError" class="login-error"></div>
+
     <p class="login-hint">Your Student ID is on your enrollment paperwork.<br>Contact your coordinator if you need help finding it.</p>
+
   </div>
 </div>
 
 <!-- ── PROFILE SCREEN ─────────────────────────────────────── -->
 <div id="profileScreen" class="profile-screen">
+
   <nav class="profile-nav">
     <div class="profile-nav-brand">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="20" height="20">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5"/>
-      </svg>
-      <div>
-        <div class="profile-nav-title">Tulsa Job Corps</div>
-        <div class="profile-nav-sub">My Progress</div>
-      </div>
+      <!-- brand svg + text -->
     </div>
     <div class="profile-nav-actions">
       <div style="position:relative;">
         <button class="btn-theme" onclick="toggleThemeDropdown()" id="themeToggle" title="Change theme">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M4.098 19.902a3.75 3.75 0 005.304 0l6.401-6.402M6.75 21A3.75 3.75 0 013 17.25V4.125C3 3.504 3.504 3 4.125 3h5.25c.621 0 1.125.504 1.125 1.125v4.072M6.75 21a3.75 3.75 0 003.75-3.75V8.197M6.75 21h13.125c.621 0 1.125-.504 1.125-1.125v-5.25c0-.621-.504-1.125-1.125-1.125h-4.072M10.5 8.197l2.88-2.88c.438-.439 1.15-.439 1.59 0l3.712 3.713c.44.44.44 1.152 0 1.59l-2.879 2.88M6.75 17.25h.008v.008H6.75v-.008z"/>
-          </svg>
+          <svg id="iconTheme" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.098 19.902a3.75 3.75 0 005.304 0l6.401-6.402M6.75 21A3.75 3.75 0 013 17.25V4.125C3 3.504 3.504 3 4.125 3h5.25c.621 0 1.125.504 1.125 1.125v4.072M6.75 21a3.75 3.75 0 003.75-3.75V8.197M6.75 21h13.125c.621 0 1.125-.504 1.125-1.125v-5.25c0-.621-.504-1.125-1.125-1.125h-4.072M10.5 8.197l2.88-2.88c.438-.439 1.15-.439 1.59 0l3.712 3.713c.44.44.44 1.152 0 1.59l-2.879 2.88M6.75 17.25h.008v.008H6.75v-.008z"/></svg>
         </button>
         <div id="themeDropdown" style="
           display:none;
@@ -1258,45 +619,54 @@
           border-radius:7px;
           box-shadow:var(--shadow-modal);
           z-index:200;
-          min-width:160px;
+          min-width:140px;
           overflow:hidden;
-        "></div>
+        ">
+          <div style="padding:6px 10px;font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;border-bottom:1px solid var(--border);">
+            Theme
+          </div>
+        </div>
       </div>
       <button class="btn-logout" onclick="logout()">Sign Out</button>
     </div>
   </nav>
 
   <div class="profile-main">
+
+    <!-- Loading state -->
     <div id="profileLoading" class="loading-state">
       <div class="spinner"></div>
       <span>Loading your progress…</span>
     </div>
 
+    <!-- Profile content -->
     <div id="profileContent" class="hidden">
 
+      <!-- Student header -->
       <div class="student-header">
         <div class="student-avatar" id="studentAvatar"></div>
         <div class="student-info">
           <div class="student-name-display" id="studentNameDisplay"></div>
-          <div class="student-id-display"   id="studentIdDisplay"></div>
-          <div class="student-tagline"      id="studentTagline"></div>
+          <div class="student-id-display" id="studentIdDisplay"></div>
+          <div class="student-tagline" id="studentTagline"></div>
         </div>
       </div>
 
-      <div class="risk-block">
+      <!-- Risk score -->
+      <div class="risk-block" id="riskBlock">
         <div class="risk-score-box">
           <div class="risk-score-num" id="riskScoreNum"></div>
           <div class="risk-score-denom">/ 100</div>
         </div>
         <div class="risk-detail">
           <div class="risk-level-label" id="riskLevelLabel"></div>
-          <div class="risk-desc"        id="riskDesc"></div>
+          <div class="risk-desc" id="riskDesc"></div>
           <button class="risk-explainer-btn" onclick="showExplainer()">How is this calculated?</button>
         </div>
       </div>
 
       <!-- Academic -->
-      <div class="section-card">
+      <div class="section-card" id="sectionAcademic">
         <div class="section-header" onclick="toggleSection('academicBody', this)">
           <div class="section-header-icon">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5"/></svg>
@@ -1318,9 +688,9 @@
         </div>
         <div class="section-body" id="tabeBody"></div>
       </div>
-      
+
       <!-- Trades -->
-      <div class="section-card">
+      <div class="section-card" id="sectionTrades">
         <div class="section-header" onclick="toggleSection('tradesBody', this)">
           <div class="section-header-icon">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z"/></svg>
@@ -1330,7 +700,7 @@
         </div>
         <div class="section-body" id="tradesBody"></div>
       </div>
-
+      
       <!-- Schedule -->
       <div class="section-card hidden" id="sectionSchedule">
         <div class="section-header" onclick="toggleSection('scheduleBody', this)">
@@ -1343,7 +713,7 @@
         </div>
         <div class="section-body" id="scheduleBody"></div>
       </div>
-
+      
       <!-- Weekly Check-In -->
       <div class="section-card hidden" id="sectionWIR">
         <div class="section-header" onclick="toggleSection('wirBody', this)">
@@ -1367,7 +737,8 @@
         </div>
         <div class="section-body" id="timeBody"></div>
       </div>
-
+          
+      
       <!-- Identity -->
       <div class="section-card">
         <div class="section-header" onclick="toggleSection('identityBody', this)">
@@ -1380,7 +751,7 @@
         <div class="section-body" id="identityBody"></div>
       </div>
 
-      <!-- Notes -->
+      <!-- Notes from staff -->
       <div class="section-card hidden" id="sectionNotes">
         <div class="section-header" onclick="toggleSection('notesBody', this)">
           <div class="section-header-icon">
@@ -1390,8 +761,7 @@
           <div class="section-chevron">▾</div>
         </div>
         <div class="section-body" id="notesBody"></div>
-      </div>
-
+      </div>  
     </div><!-- end profileContent -->
   </div>
 </div>
@@ -1413,93 +783,6 @@
 
 <script>
 // ─────────────────────────────────────────────────────────────
-// Config
-// ─────────────────────────────────────────────────────────────
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz092jlvpzc7xhFHgdxkXhti5DLFw_-GswIFSvuooyKpE73oQKL4_8KB-76CJyurW9V/exec';
-
-// ─────────────────────────────────────────────────────────────
-// Theme
-// ─────────────────────────────────────────────────────────────
-const THEMES = [
-  { key: 'dark',     label: 'Rust Dark',   dot: '#C4622E' },
-  { key: 'light',    label: 'Rust Light',  dot: '#9A4020' },
-  { key: 'obsidian', label: 'Obsidian',    dot: '#C8A878' },
-  { key: 'atlas',    label: 'Atlas',       dot: '#D2B48C' },
-  { key: 'forest',   label: 'Forest',      dot: '#7BAF5A' },
-  { key: 'desert',   label: 'Desert',      dot: '#C87A3A' },
-  { key: 'ocean',    label: 'Ocean',       dot: '#3A9EBF' },
-  { key: 'arctic',   label: 'Arctic',      dot: '#3A6E8A' },
-  { key: 'midnight', label: 'Midnight',    dot: '#5A78C8' },
-  { key: 'slate',    label: 'Slate',       dot: '#C8A84A' },
-  { key: 'burgundy', label: 'Burgundy',    dot: '#C84A6A' },
-  { key: 'navy',     label: 'Navy',        dot: '#B89040' },
-  { key: 'ember',    label: 'Ember',       dot: '#D4782A' },
-  { key: 'walnut',   label: 'Walnut',      dot: '#B8843A' },
-  { key: 'coffee',   label: 'Coffee',      dot: '#B07840' },
-  { key: 'autumn',   label: 'Autumn',      dot: '#C86828' },
-  { key: 'graphite', label: 'Graphite',    dot: '#E05A28' },
-  { key: 'cobalt',   label: 'Cobalt',      dot: '#4A90D0' },
-  { key: 'sage',     label: 'Sage',        dot: '#4A7A50' },
-  { key: 'plum',     label: 'Plum',        dot: '#B870A0' },
-];
-
-function toggleThemeDropdown() {
-  const dropdown = document.getElementById('themeDropdown');
-  const isOpen   = dropdown.style.display !== 'none';
-  if (isOpen) { dropdown.style.display = 'none'; return; }
-
-  const current = document.documentElement.getAttribute('data-theme') || 'dark';
-  dropdown.innerHTML = `
-    <div style="padding:6px 10px;font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;border-bottom:1px solid var(--border);">
-      Theme
-    </div>
-    <div style="max-height:280px;overflow-y:auto;">
-      ${THEMES.map(t => `
-        <button onclick="applyTheme('${t.key}');closeThemeDropdown();" style="
-          display:flex;align-items:center;gap:10px;
-          width:100%;padding:9px 14px;
-          background:${t.key === current ? 'var(--accent-glow)' : 'none'};
-          border:none;border-bottom:1px solid var(--border);
-          color:${t.key === current ? 'var(--accent)' : 'var(--text-soft)'};
-          font-family:var(--font);font-size:13px;font-weight:${t.key === current ? '700' : '500'};
-          cursor:pointer;text-align:left;transition:background 0.12s,color 0.12s;
-        " onmouseover="this.style.background='var(--bg4)'"
-           onmouseout="this.style.background='${t.key === current ? 'var(--accent-glow)' : 'none'}'">
-          <span style="width:12px;height:12px;border-radius:50%;flex-shrink:0;background:${t.dot};border:2px solid var(--border-bright);"></span>
-          ${t.label}
-          ${t.key === current ? '<span style="margin-left:auto;font-size:10px;color:var(--accent);">✓</span>' : ''}
-        </button>`).join('')}
-    </div>`;
-  dropdown.style.display = 'block';
-}
-
-function closeThemeDropdown() {
-  document.getElementById('themeDropdown').style.display = 'none';
-}
-
-function applyTheme(key) {
-  document.documentElement.setAttribute('data-theme', key);
-  try { localStorage.setItem('dashTheme', key); } catch(e) {}
-}
-
-document.addEventListener('click', function(e) {
-  const dropdown = document.getElementById('themeDropdown');
-  const toggle   = document.getElementById('themeToggle');
-  if (dropdown && !dropdown.contains(e.target) && toggle && !toggle.contains(e.target)) {
-    dropdown.style.display = 'none';
-  }
-});
-
-(function() {
-  try {
-    const saved = localStorage.getItem('dashTheme');
-    const valid = THEMES.find(t => t.key === saved);
-    if (valid) applyTheme(valid.key);
-    else applyTheme('dark');
-  } catch(e) { applyTheme('dark'); }
-})();
-
-// ─────────────────────────────────────────────────────────────
 // State
 // ─────────────────────────────────────────────────────────────
 let _profile = null;
@@ -1507,35 +790,34 @@ let _profile = null;
 // ─────────────────────────────────────────────────────────────
 // Login
 // ─────────────────────────────────────────────────────────────
-async function lookupStudent() {
+function lookupStudent() {
   const input = document.getElementById('studentIdInput');
   const id    = (input.value || '').trim();
-  if (!id) { showLoginError('Please enter your Student ID.'); return; }
+  if (!id) {
+    showLoginError('Please enter your Student ID. Check your ID badge');
+    return;
+  }
 
   const btn = document.getElementById('loginBtn');
   btn.disabled    = true;
   btn.textContent = 'Looking up…';
   hideLoginError();
 
-  try {
-    const url    = `${APPS_SCRIPT_URL}?studentId=${encodeURIComponent(id)}`;
-    const resp   = await fetch(url);
-    const result = await resp.json();
-
-    btn.disabled    = false;
-    btn.textContent = 'View My Progress';
-
-    if (result.error)    { showLoginError(result.error); return; }
-    if (!result.profile) { showLoginError("We couldn't find a student with that ID. Double-check and try again."); return; }
-
-    _profile = result.profile;
-    showProfile(_profile);
-
-  } catch(err) {
-    btn.disabled    = false;
-    btn.textContent = 'View My Progress';
-    showLoginError('Something went wrong. Please try again.');
-  }
+  google.script.run
+    .withSuccessHandler(function(result) {
+      btn.disabled    = false;
+      btn.textContent = 'View My Progress';
+      if (result.error) { showLoginError(result.error); return; }
+      if (!result.profile) { showLoginError("We couldn't find a student with that ID. Double-check and try again."); return; }
+      _profile = result.profile;
+      showProfile(_profile);
+    })
+    .withFailureHandler(function(err) {
+      btn.disabled    = false;
+      btn.textContent = 'View My Progress';
+      showLoginError('Something went wrong. Please try again.');
+    })
+    .getStudentProfile(id);
 }
 
 function showLoginError(msg) {
@@ -1559,15 +841,108 @@ function logout() {
 // ─────────────────────────────────────────────────────────────
 // Show profile
 // ─────────────────────────────────────────────────────────────
+const THEMES = [
+  { key: 'dark',      label: 'Rust Dark',   dot: '#C4622E' },
+  { key: 'light',     label: 'Rust Light',  dot: '#9A4020' },
+  { key: 'obsidian',  label: 'Obsidian',    dot: '#C8A878' },
+  { key: 'atlas',     label: 'Atlas',       dot: '#D2B48C' },
+  { key: 'forest',    label: 'Forest',      dot: '#7BAF5A' },
+  { key: 'desert',    label: 'Desert',      dot: '#C87A3A' },
+  { key: 'ocean',     label: 'Ocean',       dot: '#3A9EBF' },
+  { key: 'arctic',    label: 'Arctic',      dot: '#3A6E8A' },
+  { key: 'midnight',  label: 'Midnight',    dot: '#5A78C8' },
+  { key: 'slate',     label: 'Slate',       dot: '#C8A84A' },
+  { key: 'burgundy',  label: 'Burgundy',    dot: '#C84A6A' },
+  { key: 'navy',      label: 'Navy',        dot: '#B89040' },
+  { key: 'ember',     label: 'Ember',       dot: '#D4782A' },
+  { key: 'walnut',    label: 'Walnut',      dot: '#B8843A' },
+  { key: 'coffee',    label: 'Coffee',      dot: '#B07840' },
+  { key: 'autumn',    label: 'Autumn',      dot: '#C86828' },
+  { key: 'graphite',  label: 'Graphite',    dot: '#E05A28' },
+  { key: 'cobalt',    label: 'Cobalt',      dot: '#4A90D0' },
+  { key: 'sage',      label: 'Sage',        dot: '#4A7A50' },
+  { key: 'plum',      label: 'Plum',        dot: '#B870A0' },
+];
+
+function toggleThemeDropdown() {
+  const dropdown = document.getElementById('themeDropdown');
+  const isOpen   = dropdown.style.display !== 'none';
+  if (isOpen) {
+    dropdown.style.display = 'none';
+    return;
+  }
+
+  // Build dropdown items
+  const current = document.documentElement.getAttribute('data-theme') || 'dark';
+  dropdown.innerHTML = `
+    <div style="padding:6px 10px;font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;border-bottom:1px solid var(--border);">
+      Theme
+    </div>
+    <div style="max-height:280px;overflow-y:auto;">
+      ${THEMES.map(t => `
+        <button onclick="applyTheme('${t.key}');closeThemeDropdown();" style="
+          display:flex;align-items:center;gap:10px;
+          width:100%;padding:9px 14px;
+          background:${t.key === current ? 'var(--accent-glow)' : 'none'};
+          border:none;border-bottom:1px solid var(--border);
+          color:${t.key === current ? 'var(--accent)' : 'var(--text-soft)'};
+          font-family:var(--font);font-size:13px;font-weight:${t.key === current ? '700' : '500'};
+          cursor:pointer;text-align:left;
+          transition:background 0.12s,color 0.12s;
+        " onmouseover="this.style.background='var(--bg4)'"
+          onmouseout="this.style.background='${t.key === current ? 'var(--accent-glow)' : 'none'}'">
+          <span style="
+            width:12px;height:12px;border-radius:50%;flex-shrink:0;
+            background:${t.dot};
+            border:2px solid var(--border-bright);
+          "></span>
+          ${t.label}
+          ${t.key === current ? '<span style="margin-left:auto;font-size:10px;color:var(--accent);">✓</span>' : ''}
+        </button>`).join('')}
+    </div>
+  `;
+  dropdown.style.display = 'block';
+}
+
+function closeThemeDropdown() {
+  document.getElementById('themeDropdown').style.display = 'none';
+}
+
+function applyTheme(key) {
+  document.documentElement.setAttribute('data-theme', key);
+  try { localStorage.setItem('dashTheme', key); } catch(e) {}
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', function(e) {
+  const dropdown = document.getElementById('themeDropdown');
+  const toggle   = document.getElementById('themeToggle');
+  if (dropdown && !dropdown.contains(e.target) && !toggle.contains(e.target)) {
+    dropdown.style.display = 'none';
+  }
+});
+
+// Restore saved theme on load
+(function() {
+  try {
+    const saved = localStorage.getItem('dashTheme');
+    const valid = THEMES.find(t => t.key === saved);
+    if (valid) applyTheme(valid.key);
+    else applyTheme('dark');
+  } catch(e) { applyTheme('dark'); }
+})();
+
 function showProfile(p) {
   document.getElementById('loginScreen').style.display   = 'none';
   document.getElementById('profileScreen').style.display = 'block';
 
+  // Student header
   const initials = p.displayName.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
   document.getElementById('studentAvatar').textContent      = initials;
   document.getElementById('studentNameDisplay').textContent = p.displayName;
   document.getElementById('studentIdDisplay').textContent   = 'Student ID: ' + (p.academicId || p.id || '—');
 
+  // Tagline based on status
   let tagline = 'Here\'s a look at where you stand.';
   if (p.tradeComplete && p.hsComplete) tagline = 'You\'ve completed both your academics and trade training.';
   else if (p.tradeComplete)            tagline = 'You\'ve completed your trade training. Keep going with academics.';
@@ -1575,32 +950,41 @@ function showProfile(p) {
   else if (p.risk && p.risk.level === 'LOW') tagline = 'You\'re making solid progress. Keep it up.';
   document.getElementById('studentTagline').textContent = tagline;
 
+  // Risk score
   const level = p.risk ? p.risk.level : 'UNKNOWN';
   const score = p.risk ? p.risk.score : 0;
   const scoreEl = document.getElementById('riskScoreNum');
   scoreEl.textContent = score;
   scoreEl.className   = 'risk-score-num ' + level;
 
-  const levelLabels = { HIGH: 'Needs Attention', MEDIUM: 'Watch Closely', LOW: 'On Track', UNKNOWN: 'No Data Yet' };
-  const levelDescs  = {
+  const levelEl = document.getElementById('riskLevelLabel');
+  const descEl  = document.getElementById('riskDesc');
+  const levelLabels = {
+    HIGH:    'Needs Attention',
+    MEDIUM:  'Watch Closely',
+    LOW:     'On Track',
+    UNKNOWN: 'No Data Yet',
+  };
+  const levelDescs = {
     HIGH:    'Your coordinator wants to connect with you soon. Check your weekly check-in for more detail.',
     MEDIUM:  'A few things to keep an eye on. Stay in touch with your coordinator.',
     LOW:     'Things look good. Keep up the work.',
     UNKNOWN: 'We don\'t have enough data yet to calculate your score.',
   };
-  const levelEl = document.getElementById('riskLevelLabel');
   levelEl.textContent = levelLabels[level] || level;
   levelEl.className   = 'risk-level-label ' + level;
-  document.getElementById('riskDesc').textContent = levelDescs[level] || '';
+  descEl.textContent  = levelDescs[level] || '';
 
+  // Sections
   buildAcademic(p);
-  buildTABE(p);
+  buildTABE(p); 
   buildTrades(p);
   buildWIR(p);
   buildTime(p);
   buildIdentity(p);
   buildNotes(p);
   buildSchedule(p.academicId || p.id || '', p.academic ? p.academic.thisWeekHours : null);
+
 
   document.getElementById('profileLoading').style.display = 'none';
   document.getElementById('profileContent').classList.remove('hidden');
@@ -1631,15 +1015,15 @@ function buildAcademic(p) {
   }
 
   const rows = [
-    ['Program',           a.type || '—'],
-    ['Pace',              a.pace || '—'],
-    ['Total Hours',       a.hours !== null ? (+a.hours).toFixed(1) + ' h' : '—'],
-    ['Start Date',        a.start || '—'],
-    ['Graduation Date',   a.graduation || '—'],
-    ['Days to Grad',      a.daysToGrad !== null ? a.daysToGrad + ' days' : '—'],
-    ['Credits Remaining', a.credits !== null ? a.credits : '—'],
-    ['This Week',         a.thisWeekHours === 'NWH' ? 'In Trades' : a.thisWeekHours !== null ? (+a.thisWeekHours).toFixed(1) + ' h' : '—'],
-    ['Last Week',         a.lastWeekHours !== null ? (+a.lastWeekHours).toFixed(1) + ' h' : '—'],
+    ['Program',          a.type || '—'],
+    ['Pace',             a.pace || '—'],
+    ['Total Hours',      a.hours !== null ? (+a.hours).toFixed(1) + ' h' : '—'],
+    ['Start Date',       a.start || '—'],
+    ['Graduation Date',  a.graduation || '—'],
+    ['Days to Grad',     a.daysToGrad !== null ? a.daysToGrad + ' days' : '—'],
+    ['Credits Remaining',a.credits !== null ? a.credits : '—'],
+    ['This Week',        a.thisWeekHours === 'NWH' ? 'In Trades' : a.thisWeekHours !== null ? (+a.thisWeekHours).toFixed(1) + ' h' : '—'],
+    ['Last Week',        a.lastWeekHours !== null ? (+a.lastWeekHours).toFixed(1) + ' h' : '—'],
   ];
 
   html += rows.map(([label, val]) =>
@@ -1659,6 +1043,7 @@ function buildTABE(p) {
     if (scale >= 461) return 'var(--medium)';
     return 'var(--high)';
   }
+
   function subtestHtml(label, sub) {
     if (!sub) return `
       <div style="margin-bottom:16px;">
@@ -1718,7 +1103,7 @@ function buildTABE(p) {
   html += subtestHtml('Reading', p.tabe.reading);
   body.innerHTML = html;
 }
-  
+
 function buildTrades(p) {
   const body = document.getElementById('tradesBody');
 
@@ -1739,6 +1124,7 @@ function buildTrades(p) {
     const pct = t.overallPct;
     html += `<div style="margin-bottom:18px;">`;
     html += `<div style="font-size:14px;font-weight:700;color:var(--accent);margin-bottom:10px;">${esc(t.tarName || '—')}</div>`;
+
     if (pct !== null) {
       html += `<div style="margin-bottom:12px;">
         <div class="prog-wrap">
@@ -1747,12 +1133,13 @@ function buildTrades(p) {
         </div>
       </div>`;
     }
+
     const rows = [
-      ['Status',        t.status || '—'],
-      ['Enrollment',    t.enrollment || '—'],
-      ['ETAR Start',    t.etarStart || '—'],
-      ['Projected End', t.etarProjectedEnd || '—'],
-      ['Days to ETAR',  t.daysToETAR !== null ? t.daysToETAR + ' days' : '—'],
+      ['Status',       t.status || '—'],
+      ['Enrollment',   t.enrollment || '—'],
+      ['ETAR Start',   t.etarStart || '—'],
+      ['Projected End',t.etarProjectedEnd || '—'],
+      ['Days to ETAR', t.daysToETAR !== null ? t.daysToETAR + ' days' : '—'],
     ];
     html += rows.map(([label, val]) =>
       `<div class="info-row"><span class="label">${esc(label)}</span><span class="value">${esc(String(val))}</span></div>`
@@ -1768,6 +1155,7 @@ function buildWIR(p) {
   document.getElementById('sectionWIR').classList.remove('hidden');
   const iv   = p.intervention;
   const body = document.getElementById('wirBody');
+
   let html = '';
 
   if (iv.weekLabel) {
@@ -1874,87 +1262,78 @@ function buildNotes(p) {
   }).join('');
 }
 
-async function buildSchedule(studentId, workedThisWeek) {
-  try {
-    const url    = `${APPS_SCRIPT_URL}?scheduleId=${encodeURIComponent(studentId)}`;
-    const resp   = await fetch(url);
-    const result = await resp.json();
+function buildSchedule(studentId, workedThisWeek) {
+  google.script.run
+    .withSuccessHandler(function(result) {
+      if (result.error || !result.weekLabel) return;
 
-    if (result.error || !result.weekLabel) return;
+      const section = document.getElementById('sectionSchedule');
+      const body    = document.getElementById('scheduleBody');
+      const weekEl  = document.getElementById('scheduleWeekLabel');
 
-    const section = document.getElementById('sectionSchedule');
-    const body    = document.getElementById('scheduleBody');
-    const weekEl  = document.getElementById('scheduleWeekLabel');
-    if (weekEl) weekEl.textContent = result.weekLabel;
+      if (weekEl) weekEl.textContent = result.weekLabel;
 
-    if (!result.schedule || !Object.keys(result.schedule).length) {
-      body.innerHTML = '<p class="schedule-empty">No schedule on file for this week.</p>';
-      section.classList.remove('hidden');
-      return;
-    }
-
-    let html = '';
-
-    if (!result.isWeekend && result.expectedWeekHours > 0) {
-      const worked = workedThisWeek !== null && workedThisWeek !== undefined && workedThisWeek !== 'NWH'
-        ? +workedThisWeek : null;
-      const workedDisplay = workedThisWeek === 'NWH' ? 'Trades'
-        : worked !== null ? worked.toFixed(1) + 'h' : '—';
-      const workedColor = worked !== null && result.expectedWeekHours > 0
-        ? (worked >= result.expectedWeekHours * 0.5 ? 'ok' : 'warn') : '';
-
-      html += `<div class="hour-metrics">
-        <div class="hour-metric">
-          <span class="hm-label">Expected<br>This Week</span>
-          <div class="hm-val">${result.expectedWeekHours}h</div>
-        </div>
-        <div class="hour-metric">
-          <span class="hm-label">Expected<br>Today</span>
-          <div class="hm-val">${result.expectedTodayHours !== null ? result.expectedTodayHours + 'h' : '—'}</div>
-        </div>
-        <div class="hour-metric">
-          <span class="hm-label">Worked<br>This Week</span>
-          <div class="hm-val ${workedColor}">${workedDisplay}</div>
-        </div>
-      </div>`;
-    }
-
-    if (!result.isWeekend && result.todayLabel) {
-      html += `<div style="font-size:11px;font-weight:700;color:var(--accent-mid);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">${esc(result.todayLabel)}'s Classes</div>`;
-
-      const todaySched = result.todaySchedule || {};
-      const slots = Object.keys(todaySched).sort((a, b) =>
-        (parseInt(a.replace('Period ','')) || 0) - (parseInt(b.replace('Period ','')) || 0)
-      );
-
-      if (!slots.length) {
-        html += '<p class="schedule-empty">No classes scheduled today.</p>';
-      } else {
-        const ACADEMIC_NAMES = ['HSD 2', 'HSD3', 'HSE/HSD1'];
-        slots.forEach(slot => {
-          const entry = todaySched[slot];
-          const isAcademic = ACADEMIC_NAMES.some(n => (entry.class || '').toLowerCase().includes(n.toLowerCase()));
-          html += `<div class="schedule-slot">
-            <div class="slot-period">${esc(slot)}${isAcademic ? '<span class="slot-academic">●</span>' : ''}</div>
-            <div class="slot-detail">
-              <div class="slot-class">${esc(entry.class || '—')}</div>
-              ${entry.location ? `<div class="slot-location">${esc(entry.location)}</div>` : ''}
-            </div>
-          </div>`;
-        });
+      if (!result.schedule || !Object.keys(result.schedule).length) {
+        body.innerHTML = '<p class="schedule-empty">No schedule on file for this week.</p>';
+        section.classList.remove('hidden');
+        return;
       }
-    } else if (result.isWeekend) {
-      html += '<p class="schedule-empty">No schedule on weekends.</p>';
-    }
 
-    body.innerHTML = html;
-    section.classList.remove('hidden');
+      let html = '';
 
-  } catch(e) {
-    // Fail silently — schedule is non-critical
-  }
+      // ── Hour metrics (weekdays only) ──────────────────────
+      if (!result.isWeekend && result.expectedWeekHours > 0) {
+        html += `<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px;">
+          <div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px 8px;text-align:center;">
+            <div style="font-size:9px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Expected<br>This Week</div>
+            <div style="font-size:20px;font-weight:800;color:var(--text);">${result.expectedWeekHours}h</div>
+          </div>
+          <div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px 8px;text-align:center;">
+            <div style="font-size:9px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Expected<br>Today</div>
+            <div style="font-size:20px;font-weight:800;color:var(--text);">${result.expectedTodayHours !== null ? result.expectedTodayHours + 'h' : '—'}</div>
+          </div>
+          <div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px 8px;text-align:center;">
+            <div style="font-size:9px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Worked<br>This Week</div>
+            <div style="font-size:20px;font-weight:800;color:var(--text);">${workedThisWeek !== null && workedThisWeek !== undefined ? (workedThisWeek === 'NWH' ? 'Trades' : (+workedThisWeek).toFixed(1) + 'h') : '—'}</div>
+          </div>
+        </div>`;
+      }
+
+      // ── Today's schedule ──────────────────────────────────
+      if (!result.isWeekend && result.todayLabel) {
+        html += `<div style="font-size:11px;font-weight:700;color:var(--accent-mid);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">${esc(result.todayLabel)}'s Classes</div>`;
+
+        const todaySched = result.todaySchedule || {};
+        const slots = Object.keys(todaySched).sort((a, b) =>
+          (parseInt(a.replace('Period ','')) || 0) - (parseInt(b.replace('Period ','')) || 0)
+        );
+
+        if (!slots.length) {
+          html += '<p class="schedule-empty">No classes scheduled today.</p>';
+        } else {
+          slots.forEach(slot => {
+            const entry = todaySched[slot];
+            html += `<div class="schedule-slot">
+              <div class="slot-time">${esc(slot)}</div>
+              <div class="slot-detail">
+                <div class="slot-class">${esc(entry.class || '—')}</div>
+                ${entry.location ? `<div class="slot-location">${esc(entry.location)}</div>` : ''}
+              </div>
+            </div>`;
+          });
+        }
+      } else if (result.isWeekend) {
+        html += '<p class="schedule-empty">No schedule on weekends.</p>';
+      }
+
+      body.innerHTML = html;
+      section.classList.remove('hidden');
+    })
+    .withFailureHandler(function() {
+      // Fail silently
+    })
+    .getStudentSchedule(studentId);
 }
-
 // ─────────────────────────────────────────────────────────────
 // UI helpers
 // ─────────────────────────────────────────────────────────────
@@ -1981,5 +1360,6 @@ function formatDate(iso) {
   } catch(e) { return ''; }
 }
 </script>
+
 </body>
 </html>

@@ -760,7 +760,15 @@ function toggleThemeDropdown() {
           ${t.label}
           ${t.key === current ? '<span style="margin-left:auto;font-size:10px;color:var(--accent);">✓</span>' : ''}
         </button>`).join('')}
-    </div>`;
+    </div>
+    <button onclick="openThemeBuilder()" style="
+      display:flex;align-items:center;gap:10px;width:100%;padding:11px 14px;
+      background:var(--accent-glow);border:none;border-top:2px solid var(--border);
+      color:var(--accent);font-family:var(--font);font-size:13px;font-weight:700;
+      cursor:pointer;text-align:left;
+    ">
+      🎨 Build Your Own
+    </button>`;
   dropdown.style.display = 'block';
 }
 

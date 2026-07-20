@@ -424,6 +424,48 @@
       .student-header { padding: 16px 14px; gap: 12px; }
       .student-name-display { font-size: 17px; }
     }
+    /* ── Achievement Badges ───────────────────────────────────── */
+  .badge-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+    gap: 12px;
+  }
+  .badge-card {
+    position: relative;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 8px 10px;
+    text-align: center;
+    transition: transform 0.15s, border-color 0.15s;
+  }
+  .badge-card:hover { transform: translateY(-2px); border-color: var(--accent-dim); }
+  .badge-icon  { font-size: 26px; line-height: 1; margin-bottom: 6px; }
+  .badge-label { font-size: 10.5px; font-weight: 700; color: var(--text-soft); line-height: 1.3; }
+  
+  /* First-time-earned highlight — subtle glow + tag, no popup */
+  .badge-card.badge-new {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px var(--accent), 0 0 14px var(--accent-glow);
+    animation: badgeGlowIn 1.6s ease-out;
+  }
+  .badge-new-tag {
+    position: absolute;
+    top: -7px;
+    right: -6px;
+    background: var(--accent);
+    color: var(--bg-nav);
+    font-size: 9px;
+    font-weight: 800;
+    padding: 2px 6px;
+    border-radius: 999px;
+    letter-spacing: 0.3px;
+  }
+  @keyframes badgeGlowIn {
+    0%   { box-shadow: 0 0 0 1px var(--accent), 0 0 0px var(--accent-glow);   transform: scale(0.92); }
+    40%  { box-shadow: 0 0 0 1px var(--accent), 0 0 22px var(--accent-glow); transform: scale(1.04); }
+    100% { box-shadow: 0 0 0 1px var(--accent), 0 0 14px var(--accent-glow); transform: scale(1); }
+  }
   </style>
 </head>
 <body>
@@ -628,7 +670,17 @@
     </div><!-- end profileContent -->
   </div>
 </div>
-
+<!-- Achievements -->
+<div class="section-card hidden" id="sectionAchievements">
+  <div class="section-header" onclick="toggleSection('achievementsBody', this)">
+    <div class="section-header-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 01-.982-3.172M9.497 14.25a7.454 7.454 0 00.981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 007.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.29 0 4.544.16 6.75.47v1.516M7.73 9.728a6.726 6.726 0 002.748 1.35m8.272-6.842V4.5c0 2.108-.966 3.99-2.48 5.228m2.48-5.492a46.32 46.32 0 012.916.52 6.003 6.003 0 01-5.395 4.972m0 0a6.726 6.726 0 01-2.749 1.35m0 0a6.772 6.772 0 01-3.044 0"/></svg>
+    </div>
+    <div class="section-title">My Achievements</div>
+    <div class="section-chevron">▾</div>
+  </div>
+  <div class="section-body" id="achievementsBody"></div>
+</div>
 <!-- ── RISK EXPLAINER ─────────────────────────────────────── -->
 <div id="explainerOverlay" class="explainer-overlay hidden" onclick="if(event.target===this)hideExplainer()">
   <div class="explainer-box">
@@ -1251,7 +1303,302 @@ async function buildSchedule(studentId, workedThisWeek) {
     // Fail silently — schedule is non-critical
   }
 }
+  /* ============================================================
+   CUSTOM THEME BUILDER
+   ------------------------------------------------------------
+   Lets a student pick their own colors instead of only choosing
+   from the 20 preset themes. Uses native <input type="color">,
+   which gives a real color-wheel/picker on every modern browser
+   and phone — no extra library needed. Saved to localStorage per
+   device, applied as a "custom" theme layered on top of whichever
+   base theme (dark/light/etc.) they were last using, so anything
+   they DON'T customize still looks sensible.
+   ============================================================ */
 
+const CUSTOM_THEME_KEY = 'tjcCustomTheme';
+
+// The variables students can actually customize. Keeping this to a
+// curated handful (not all 30+ CSS vars) so the builder stays simple
+// and every combination still looks coherent — e.g. --text-muted,
+// --border, and the shadow variables stay derived from the base
+// theme rather than becoming their own sliders.
+const CUSTOMIZABLE_VARS = [
+  { key: '--bg-nav',   label: 'Banner / Nav Bar' },
+  { key: '--accent',   label: 'Accent Color' },
+  { key: '--bg',       label: 'Page Background' },
+  { key: '--bg2',      label: 'Card Background' },
+  { key: '--text',     label: 'Text Color' },
+];
+
+const CUSTOM_FONTS = [
+  { key: "'Figtree', system-ui, sans-serif",              label: 'Figtree (default)' },
+  { key: "'Georgia', serif",                              label: 'Georgia' },
+  { key: "'Courier New', monospace",                      label: 'Courier New' },
+  { key: "'Trebuchet MS', sans-serif",                     label: 'Trebuchet MS' },
+  { key: "'Comic Sans MS', 'Comic Sans', cursive",          label: 'Comic Sans' },
+  { key: "'Palatino Linotype', 'Book Antiqua', serif",      label: 'Palatino' },
+];
+
+function openThemeBuilder() {
+  closeThemeDropdown();
+
+  const saved = _loadCustomTheme();
+  const currentBase = document.documentElement.getAttribute('data-theme') || 'dark';
+
+  const overlay = document.createElement('div');
+  overlay.id = 'themeBuilderOverlay';
+  overlay.className = 'explainer-overlay';
+  overlay.onclick = (e) => { if (e.target === overlay) closeThemeBuilder(); };
+
+  overlay.innerHTML = `
+    <div class="explainer-box" style="max-width:420px;">
+      <div class="explainer-title">Build Your Own Theme</div>
+      <p class="explainer-text">Pick your own colors and font. Anything you don't change stays part of your current theme (${esc(currentBase)}).</p>
+
+      <div id="themeBuilderFields" style="display:flex;flex-direction:column;gap:14px;margin-bottom:18px;"></div>
+
+      <div style="margin-bottom:18px;">
+        <label class="login-label" style="margin-bottom:8px;">Font</label>
+        <select id="themeBuilderFont" style="
+          width:100%;padding:10px 12px;background:var(--bg3);border:1px solid var(--border);
+          border-radius:7px;color:var(--text);font-family:var(--font);font-size:14px;
+        ">
+          ${CUSTOM_FONTS.map(f => `<option value="${esc(f.key)}" ${saved && saved['--font'] === f.key ? 'selected' : ''}>${esc(f.label)}</option>`).join('')}
+        </select>
+      </div>
+
+      <div style="display:flex;gap:10px;">
+        <button class="explainer-close" style="flex:1;" onclick="resetCustomTheme()">Reset to Preset</button>
+        <button class="login-btn" style="flex:1;margin-top:0;" onclick="closeThemeBuilder()">Done</button>
+      </div>
+    </div>`;
+
+  document.body.appendChild(overlay);
+
+  const fieldsEl = document.getElementById('themeBuilderFields');
+  fieldsEl.innerHTML = CUSTOMIZABLE_VARS.map(v => {
+    const currentVal = saved && saved[v.key]
+      ? saved[v.key]
+      : _rgbToHex(getComputedStyle(document.documentElement).getPropertyValue(v.key).trim());
+    return `
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+        <label style="font-size:13px;font-weight:600;color:var(--text-soft);">${esc(v.label)}</label>
+        <input type="color" data-var="${esc(v.key)}" value="${esc(currentVal)}"
+          oninput="_onThemeBuilderColorChange(this)"
+          style="width:44px;height:34px;border:1px solid var(--border);border-radius:6px;
+                 padding:0;cursor:pointer;background:none;">
+      </div>`;
+  }).join('');
+
+  document.getElementById('themeBuilderFont').addEventListener('change', (e) => {
+    _applyCustomThemeVar('--font', e.target.value);
+    _saveCustomThemeVar('--font', e.target.value);
+  });
+}
+
+function closeThemeBuilder() {
+  const el = document.getElementById('themeBuilderOverlay');
+  if (el) el.remove();
+}
+
+function _onThemeBuilderColorChange(input) {
+  const varName = input.getAttribute('data-var');
+  const hex = input.value;
+  _applyCustomThemeVar(varName, hex);
+  _saveCustomThemeVar(varName, hex);
+
+  // A few colors imply sensible companions so things don't look broken —
+  // e.g. changing the page background should nudge the "card" shadow
+  // and border tone along with it rather than leaving high-contrast
+  // borders from the old theme sitting on a totally different backdrop.
+  if (varName === '--bg') {
+    document.documentElement.style.setProperty('--bg3', _shiftLightness(hex, 6));
+    document.documentElement.style.setProperty('--bg4', _shiftLightness(hex, 12));
+  }
+}
+
+function _applyCustomThemeVar(key, value) {
+  document.documentElement.style.setProperty(key, value);
+}
+
+function _saveCustomThemeVar(key, value) {
+  const current = _loadCustomTheme() || {};
+  current[key] = value;
+  try { localStorage.setItem(CUSTOM_THEME_KEY, JSON.stringify(current)); } catch(e) {}
+}
+
+function _loadCustomTheme() {
+  try {
+    const raw = localStorage.getItem(CUSTOM_THEME_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch(e) { return null; }
+}
+
+function applyCustomThemeOnLoad() {
+  const saved = _loadCustomTheme();
+  if (!saved) return;
+  Object.entries(saved).forEach(([key, value]) => {
+    document.documentElement.style.setProperty(key, value);
+  });
+}
+
+function resetCustomTheme() {
+  try { localStorage.removeItem(CUSTOM_THEME_KEY); } catch(e) {}
+  // Clear all inline overrides so the preset theme's own values show again
+  CUSTOMIZABLE_VARS.forEach(v => document.documentElement.style.removeProperty(v.key));
+  document.documentElement.style.removeProperty('--font');
+  document.documentElement.style.removeProperty('--bg3');
+  document.documentElement.style.removeProperty('--bg4');
+  closeThemeBuilder();
+}
+
+// ── Small color-math helpers (no library — plain hex math) ─────
+function _rgbToHex(rgbStr) {
+  if (!rgbStr) return '#000000';
+  if (rgbStr.startsWith('#')) return rgbStr;
+  const m = rgbStr.match(/\d+/g);
+  if (!m || m.length < 3) return '#000000';
+  return '#' + m.slice(0, 3).map(n => Number(n).toString(16).padStart(2, '0')).join('');
+}
+
+function _shiftLightness(hex, amount) {
+  const h = hex.replace('#', '');
+  const r = Math.min(255, Math.max(0, parseInt(h.substring(0,2),16) + amount));
+  const g = Math.min(255, Math.max(0, parseInt(h.substring(2,4),16) + amount));
+  const b = Math.min(255, Math.max(0, parseInt(h.substring(4,6),16) + amount));
+  return '#' + [r,g,b].map(n => Math.round(n).toString(16).padStart(2,'0')).join('');
+}
+
+// Apply any saved custom theme as soon as the page loads, right after
+// the preset theme is applied (see the IIFE near the bottom of the
+// theme section — add a call to applyCustomThemeOnLoad() there).
+/* ============================================================
+   ACHIEVEMENT BADGES
+   ------------------------------------------------------------
+   A permanent "Achievements" section on the profile. Each badge
+   is computed fresh every load from data already in the profile
+   object — nothing new from the backend needed. A badge glows/
+   animates ONLY the very first time it's detected as earned
+   (tracked in localStorage per student ID so it survives across
+   sessions); after that first reveal it just sits in the shelf
+   like any other earned badge, permanently.
+   ============================================================ */
+
+// Each badge: id (stable key for localStorage), icon, label, and a
+// condition function receiving the full profile object p. Add new
+// badges here — order shown matches array order.
+const ACHIEVEMENT_DEFS = [
+  {
+    id: 'hs_complete',
+    icon: '🎓',
+    label: 'High School Complete',
+    desc: 'Finished all HS coursework requirements.',
+    when: p => !!p.hsComplete,
+  },
+  {
+    id: 'trade_complete',
+    icon: '🛠️',
+    label: 'Trade Complete',
+    desc: 'Finished your trade training program.',
+    when: p => !!p.tradeComplete,
+  },
+  {
+    id: 'both_complete',
+    icon: '🏆',
+    label: 'Fully Complete',
+    desc: 'Finished both academics and trade training.',
+    when: p => !!p.hsComplete && !!p.tradeComplete,
+  },
+  {
+    id: 'trade_80',
+    icon: '⚙️',
+    label: 'Trade 80%+',
+    desc: 'Reached 80% or higher in a trade program.',
+    when: p => (p.trades || []).some(t => t.overallPct !== null && t.overallPct >= 80),
+  },
+  {
+    id: 'trade_50',
+    icon: '🔧',
+    label: 'Trade Halfway There',
+    desc: 'Reached 50% in a trade program.',
+    when: p => (p.trades || []).some(t => t.overallPct !== null && t.overallPct >= 50),
+  },
+  {
+    id: 'academic_halfway',
+    icon: '📘',
+    label: 'Academic Halfway There',
+    desc: 'Reached 50% complete academically.',
+    when: p => p.academic && p.academic.percent !== null && p.academic.percent >= 50,
+  },
+  {
+    id: 'academic_almost_done',
+    icon: '📗',
+    label: 'Almost Done Academically',
+    desc: '2 or fewer credits remaining.',
+    when: p => p.academic && p.academic.credits !== null && p.academic.credits <= 2,
+  },
+  {
+    id: 'on_track',
+    icon: '✅',
+    label: 'On Track',
+    desc: 'Your progress score is in the On Track range.',
+    when: p => p.risk && p.risk.level === 'LOW',
+  },
+  {
+    id: 'tabe_math_levelup',
+    icon: '🔢',
+    label: 'Math Level-Up',
+    desc: 'Moved up an EFL level in Math.',
+    when: p => !!(p.tabe && p.tabe.math && p.tabe.math.previous &&
+      p.tabe.math.current.efl > p.tabe.math.previous.efl),
+  },
+  {
+    id: 'tabe_reading_levelup',
+    icon: '📖',
+    label: 'Reading Level-Up',
+    desc: 'Moved up an EFL level in Reading.',
+    when: p => !!(p.tabe && p.tabe.reading && p.tabe.reading.previous &&
+      p.tabe.reading.current.efl > p.tabe.reading.previous.efl),
+  },
+];
+
+const ACHIEVEMENTS_SEEN_KEY_PREFIX = 'tjcBadgesSeen_';
+
+function buildAchievements(p) {
+  const studentId = p.academicId || p.id || 'unknown';
+  const seenKey = ACHIEVEMENTS_SEEN_KEY_PREFIX + studentId;
+  let seen = [];
+  try { seen = JSON.parse(localStorage.getItem(seenKey) || '[]'); } catch(e) { seen = []; }
+
+  const earned = ACHIEVEMENT_DEFS.filter(def => {
+    try { return def.when(p); } catch(e) { return false; }
+  });
+
+  if (!earned.length) return; // no achievements yet — section stays hidden
+
+  const newlyEarnedIds = earned.filter(def => !seen.includes(def.id)).map(def => def.id);
+
+  document.getElementById('sectionAchievements').classList.remove('hidden');
+  const body = document.getElementById('achievementsBody');
+
+  body.innerHTML = `<div class="badge-grid">${earned.map(def => {
+    const isNew = newlyEarnedIds.includes(def.id);
+    return `
+      <div class="badge-card${isNew ? ' badge-new' : ''}" title="${esc(def.desc)}">
+        <div class="badge-icon">${def.icon}</div>
+        <div class="badge-label">${esc(def.label)}</div>
+        ${isNew ? '<div class="badge-new-tag">New!</div>' : ''}
+      </div>`;
+  }).join('')}</div>`;
+
+  // Mark everything currently earned as "seen" so the glow/tag never
+  // shows again for these — the badge itself stays in the shelf
+  // permanently, just without the first-time highlight.
+  if (newlyEarnedIds.length) {
+    const updatedSeen = [...new Set([...seen, ...earned.map(d => d.id)])];
+    try { localStorage.setItem(seenKey, JSON.stringify(updatedSeen)); } catch(e) {}
+  }
+}
 // ─────────────────────────────────────────────────────────────
 // UI helpers
 // ─────────────────────────────────────────────────────────────

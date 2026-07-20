@@ -1857,8 +1857,8 @@ function buildWIR(p) {
     html += `<div style="background:var(--bg3);border-left:2px solid var(--accent-dim);padding:10px 13px;border-radius:5px;font-size:13px;color:var(--text-soft);line-height:1.6;margin-bottom:10px;">${esc(iv.reason)}</div>`;
   }
 
-  if (iv.gradGap && iv.gradGap.trim()) {
-    const g = iv.gradGap.trim();
+  if (iv.gradGap !== null && iv.gradGap !== undefined && String(iv.gradGap).trim()) {
+    const g = String(iv.gradGap).trim();
     const isOver = g.includes('over limit') || g.startsWith('⛔');
     const color  = isOver ? 'var(--high)' : g.startsWith('🟡') ? 'var(--medium)' : 'var(--low)';
     html += `<div class="info-row"><span class="label">Graduation Window</span><span class="value" style="color:${color}">${esc(g)}</span></div>`;

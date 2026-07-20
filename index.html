@@ -1578,49 +1578,90 @@ function logout() {
 // ─────────────────────────────────────────────────────────────
 // Show profile
 // ─────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────
+// Show profile
+// ─────────────────────────────────────────────────────────────
 function showProfile(p) {
   document.getElementById('loginScreen').style.display   = 'none';
   document.getElementById('profileScreen').style.display = 'block';
 
-  const initials = p.displayName.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
-  document.getElementById('studentAvatar').textContent      = initials;
-  document.getElementById('studentNameDisplay').textContent = p.displayName;
-  document.getElementById('studentIdDisplay').textContent   = 'Student ID: ' + (p.academicId || p.id || '—');
+  try {
+    const initials = p.displayName.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
+    document.getElementById('studentAvatar').textContent      = initials;
+    document.getElementById('studentNameDisplay').textContent = p.displayName;
+    document.getElementById('studentIdDisplay').textContent   = 'Student ID: ' + (p.academicId || p.id || '—');
 
-  let tagline = 'Here\'s a look at where you stand.';
-  if (p.tradeComplete && p.hsComplete) tagline = 'You\'ve completed both your academics and trade training.';
-  else if (p.tradeComplete)            tagline = 'You\'ve completed your trade training. Keep going with academics.';
-  else if (p.hsComplete)               tagline = 'You\'ve completed your high school requirements. Keep going with trades.';
-  else if (p.risk && p.risk.level === 'LOW') tagline = 'You\'re making solid progress. Keep it up.';
-  document.getElementById('studentTagline').textContent = tagline;
+    let tagline = 'Here\'s a look at where you stand.';
+    if (p.tradeComplete && p.hsComplete) tagline = 'You\'ve completed both your academics and trade training.';
+    else if (p.tradeComplete)            tagline = 'You\'ve completed your trade training. Keep going with academics.';
+    else if (p.hsComplete)               tagline = 'You\'ve completed your high school requirements. Keep going with trades.';
+    else if (p.risk && p.risk.level === 'LOW') tagline = 'You\'re making solid progress. Keep it up.';
+    document.getElementById('studentTagline').textContent = tagline;
 
-  const level = p.risk ? p.risk.level : 'UNKNOWN';
-  const score = p.risk ? p.risk.score : 0;
-  const scoreEl = document.getElementById('riskScoreNum');
-  scoreEl.textContent = score;
-  scoreEl.className   = 'risk-score-num ' + level;
+    const level = p.risk ? p.risk.level : 'UNKNOWN';
+    const score = p.risk ? p.risk.score : 0;
+    const scoreEl = document.getElementById('riskScoreNum');
+    scoreEl.textContent = score;
+    scoreEl.className   = 'risk-score-num ' + level;
 
-  const levelLabels = { HIGH: 'Needs Attention', MEDIUM: 'Watch Closely', LOW: 'On Track', UNKNOWN: 'No Data Yet' };
-  const levelDescs  = {
-    HIGH:    'Your coordinator wants to connect with you soon. Check your weekly check-in for more detail.',
-    MEDIUM:  'A few things to keep an eye on. Stay in touch with your coordinator.',
-    LOW:     'Things look good. Keep up the work.',
-    UNKNOWN: 'We don\'t have enough data yet to calculate your score.',
-  };
-  const levelEl = document.getElementById('riskLevelLabel');
-  levelEl.textContent = levelLabels[level] || level;
-  levelEl.className   = 'risk-level-label ' + level;
-  document.getElementById('riskDesc').textContent = levelDescs[level] || '';
+    const levelLabels = { HIGH: 'Needs Attention', MEDIUM: 'Watch Closely', LOW: 'On Track', UNKNOWN: 'No Data Yet' };
+    const levelDescs  = {
+      HIGH:    'Your coordinator wants to connect with you soon. Check your weekly check-in for more detail.',
+      MEDIUM:  'A few things to keep an eye on. Stay in touch with your coordinator.',
+      LOW:     'Things look good. Keep up the work.',
+      UNKNOWN: 'We don\'t have enough data yet to calculate your score.',
+    };
+    const levelEl = document.getElementById('riskLevelLabel');
+    levelEl.textContent = levelLabels[level] || level;
+    levelEl.className   = 'risk-level-label ' + level;
+    document.getElementById('riskDesc').textContent = levelDescs[level] || '';
 
-  buildAcademic(p);
-  buildTABE(p);
-  buildTrades(p);
-  buildWIR(p);
-  buildTime(p);
-  buildIdentity(p);
-  buildNotes(p);
-  buildSchedule(p.academicId || p.id || '', p.academic ? p.academic.thisWeekHours : null);
+    _runBuildStep('buildAcademic', () => buildAcademic(p));
+    _runBuildStep('buildTABE',     () => buildTABE(p));
+    _runBuildStep('buildTrades',   () => buildTrades(p));
+    _runBuildStep('buildWIR',      () => buildWIR(p));
+    _runBuildStep('buildTime',     () => buildTime(p));
+    _runBuildStep('buildIdentity', () => buildIdentity(p));
+    _runBuildStep('buildNotes',    () => buildNotes(p));
+    _runBuildStep('buildSchedule', () => buildSchedule(p.academicId || p.id || '', p.academic ? p.academic.thisWeekHours : null));
 
+    document.getElementById('profileLoading').style.display = 'none';
+    document.getElementById('profileContent').classList.remove('hidden');
+
+  } catch (err) {
+    _showOnScreenError('showProfile', err);
+  }
+}
+
+// Runs one section-builder and shows an on-screen error (instead of
+// silently stalling on the spinner) if it throws — no DevTools needed
+// to see what broke. The failing section just shows an error message
+// where its content would've gone; everything else still renders.
+function _runBuildStep(label, fn) {
+  try {
+    fn();
+  } catch (err) {
+    _showOnScreenError(label, err);
+  }
+}
+
+function _showOnScreenError(label, err) {
+  const msg = (err && err.message) ? err.message : String(err);
+  let box = document.getElementById('onScreenErrorBox');
+  if (!box) {
+    box = document.createElement('div');
+    box.id = 'onScreenErrorBox';
+    box.style.cssText = 'background:rgba(240,69,53,.10);border:1px solid rgba(240,69,53,.4);' +
+      'border-radius:8px;padding:14px 16px;margin-bottom:14px;font-size:13px;color:var(--high);' +
+      'white-space:pre-wrap;';
+    const main = document.querySelector('.profile-main');
+    main.insertBefore(box, main.firstChild);
+  }
+  box.textContent += (box.textContent ? '\n\n' : '') +
+    '⚠ Error in ' + label + ': ' + msg;
+
+  // Still hide the spinner and show whatever content DID build
+  // successfully, instead of leaving the student stuck on "Loading…"
   document.getElementById('profileLoading').style.display = 'none';
   document.getElementById('profileContent').classList.remove('hidden');
 }

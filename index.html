@@ -1663,7 +1663,31 @@ function buildAchievements(p) {
     try { localStorage.setItem(seenKey, JSON.stringify(updatedSeen)); } catch(e) {}
   }
 }
+// ─────────────────────────────────────────────────────────────
+// UI helpers
+// ─────────────────────────────────────────────────────────────
+function toggleSection(bodyId, header) {
+  const body    = document.getElementById(bodyId);
+  const chevron = header.querySelector('.section-chevron');
+  const isHidden = body.classList.contains('hidden');
+  body.classList.toggle('hidden', !isHidden);
+  if (chevron) chevron.classList.toggle('collapsed', !isHidden);
+}
 
+function showExplainer() { document.getElementById('explainerOverlay').classList.remove('hidden'); }
+function hideExplainer() { document.getElementById('explainerOverlay').classList.add('hidden'); }
+
+function esc(str) {
+  return String(str ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function formatDate(iso) {
+  try {
+    const d = new Date(iso);
+    if (isNaN(d.getTime())) return '';
+    return d.toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' });
+  } catch(e) { return ''; }
+}
 // ─────────────────────────────────────────────────────────────
 // Auto re-login on refresh
 // ─────────────────────────────────────────────────────────────
